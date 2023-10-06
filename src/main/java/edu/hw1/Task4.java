@@ -1,5 +1,6 @@
 package edu.hw1;
 
+import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.Scanner;
 import static java.lang.Integer.parseInt;
@@ -21,7 +22,7 @@ public class Task4
         }
     }
 
-    public static String fixString(String str)
+    public static @NotNull String fixString(@NotNull String str)
     {
         char[] result=new char[str.length()];
         for(int i=1;i<str.length();i+=2)
