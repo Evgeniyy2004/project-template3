@@ -1,22 +1,10 @@
 package edu.hw1;
 
 import org.jetbrains.annotations.NotNull;
-import java.util.Scanner;
 
 public final class Task4 {
     private Task4() {
         //not used
-    }
-
-    @SuppressWarnings("uncommentedmain")
-    public static void main(String[] args) {
-        try {
-            Scanner scanner = new Scanner(System.in);
-            String str1 = scanner.nextLine();
-            System.out.println(fixString(str1));
-        } catch (Exception e) {
-            return;
-        }
     }
 
     public static @NotNull String fixString(@NotNull String str) {

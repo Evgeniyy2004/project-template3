@@ -2,25 +2,14 @@ package edu.hw1;
 
 import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
-import java.util.Scanner;
 
 public final class Task6 {
     private Task6() {
         //not used
     }
 
-    @SuppressWarnings("uncommentedmain")
-    public static void main(String[] args) {
-        try {
-            Scanner scanner = new Scanner(System.in);
-            String str = scanner.nextLine();
-        } catch (Exception e) {
-            return;
-        }
-    }
-
     public static int countK(int arg) {
-        int newArg=arg;
+        int newArg = arg;
         if (newArg < 0) {
             newArg = Math.abs(newArg);
         }
