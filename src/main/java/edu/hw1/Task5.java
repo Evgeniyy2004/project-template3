@@ -6,17 +6,18 @@ public final class Task5 {
     }
 
     public static boolean isPalindromeDescendant(int arg) {
-        if (arg < 0) {
-            arg = Math.abs(arg);
+        int newArg = arg;
+        if (newArg < 0) {
+            newArg = Math.abs(newArg);
         }
-        String instr = Integer.toString(arg);
+        String instr = Integer.toString(newArg);
         if (instr.length() == 1) {
             return false;
         }
         if (instr.equals(new StringBuilder(instr).reverse().toString())) {
             return true;
         }
-        if (Task2.countDigits(arg) % 2 != 0) {
+        if (Task2.countDigits(newArg) % 2 != 0) {
             return false;
         }
         StringBuilder strb = new StringBuilder();

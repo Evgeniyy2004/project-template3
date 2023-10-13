@@ -31,24 +31,25 @@ public class Task7 {
     }
 
     public static int rotateLeft(int n, int shift) {
+        int newShift = shift;
         int newN = n;
         if (newN < 0) {
             newN = Math.abs(newN);
         }
-        if (newN == 0 || newN == 1 || shift == 0) {
+        if (newN == 0 || newN == 1 || newShift == 0) {
             return newN;
         }
-        if (shift < 0) {
-            return rotateRight(newN, Math.abs(shift));
+        if (newShift < 0) {
+            return rotateRight(newN, Math.abs(newShift));
         }
         char[] start = Integer.toBinaryString(newN).toCharArray();
         char[] result = new char[start.length];
-        shift = shift % start.length;
+        newShift = newShift % start.length;
         for (int i = start.length - 1; i >= 0; i--) {
-            if (i - shift < 0) {
-                result[start.length + (i - shift)] = start[i];
+            if (i - newShift < 0) {
+                result[start.length + (i - newShift)] = start[i];
             } else {
-                result[i - shift] = start[i];
+                result[i - newShift] = start[i];
             }
         }
         return Integer.parseInt(String.valueOf(result), 2);

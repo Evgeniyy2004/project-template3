@@ -3,7 +3,6 @@ package edu.hw1;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 public class Test3 {
 
     @Test
@@ -19,17 +18,17 @@ public class Test3 {
         try {
             int[] a={0, 21450000};
             boolean res=Task3.isNestable(null,a);
-            assertThat(true).isEqualTo(false);
+            assertThat(false).isTrue();
         } catch (IllegalArgumentException e) {
-            assertThat(true).isEqualTo(true);
+            assertThat(true).isTrue();
         }
 
         try {
             int[] a={0, 222380};
             boolean res=Task3.isNestable(a,null);
-            assertThat(true).isEqualTo(false);
+            assertThat(false).isTrue();
         } catch (IllegalArgumentException e) {
-            assertThat(true).isEqualTo(true);
+            assertThat(true).isTrue();
         }
     }
 

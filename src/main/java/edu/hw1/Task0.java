@@ -6,8 +6,8 @@ import org.apache.logging.log4j.Logger;
 public  final class Task0 {
     @SuppressWarnings("uncommentedmain")
     public static void main(String[]args) {
-         Logger LOGGER = LogManager.getLogger();
-         LOGGER.info("Привет, мир!");
+         Logger logger = LogManager.getLogger();
+         logger.info("Привет, мир!");
     }
 
     private Task0() {
