@@ -10,15 +10,15 @@ public final class Main {
 
     private final static Logger LOGGER = LogManager.getLogger();
 
-    /*private Main() {
-    }*/
+    private Main() {
+    }
 
     public static void main(String[] args) {
         // Press Alt+Enter with your caret at the highlighted text to see how
         // IntelliJ IDEA suggests fixing it.
         LOGGER.info("Hello and welcome!");
 
-        System.out.println("Hello, world!");
+        //System.out.println("Hello, world!");
         // Press Shift+F10 or click the green arrow button in the gutter to run the code.
         for (int i = 0; i <= 2; i++) {
 
