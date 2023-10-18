@@ -23,7 +23,8 @@ public final class Task6 {
         if (str.length() != TYPICAL_LENGTH || str.equals("1000")) {
             return -1;
         }
-        if (str.charAt(0) == str.charAt(1) && str.charAt(0) == str.charAt(2) && str.charAt(0) == str.charAt(TYPICAL_LENGTH - 1)) {
+        if (str.charAt(0) == str.charAt(1)
+            && str.charAt(0) == str.charAt(2) && str.charAt(0) == str.charAt(TYPICAL_LENGTH - 1)) {
             return -1;
         }
         if (newArg == KAP_CONSTANT) {

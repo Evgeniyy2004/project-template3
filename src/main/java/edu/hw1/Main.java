@@ -1,7 +1,8 @@
 package edu.hw1;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
