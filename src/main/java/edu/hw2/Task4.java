@@ -5,7 +5,7 @@ public class Task4 {
         //not used
     }
 
-    public static CallingInfo FindCallingInfo() {
+    public static CallingInfo findCallingInfo() {
         var c = new Throwable().getStackTrace();
         CallingInfo result = null;
         String className = new Task4().getClass().getName();

@@ -11,7 +11,7 @@ public class Test4 {
     @DisplayName("Метод FindCallingInfo ищет в стеке вызовов предшествующий ему вызов")
     void checkCallingInfo(){
 
-        var curr = Task4.FindCallingInfo();
+        var curr = Task4.findCallingInfo();
         assertThat(curr.className()).isEqualTo(new Test4().getClass().getName());
         assertThat(curr.methodName()).isEqualTo("checkCallingInfo");
     }

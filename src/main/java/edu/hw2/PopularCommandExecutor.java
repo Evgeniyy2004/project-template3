@@ -32,8 +32,8 @@ public final class PopularCommandExecutor {
                 try {
                     currConnection.execute(command);
                     return;
-                } catch (ConnectionException exception1) {
-                    exception = exception1;
+                } catch (ConnectionException newException) {
+                    exception = newException;
                 }
             }
 
