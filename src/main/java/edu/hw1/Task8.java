@@ -24,19 +24,26 @@ public class Task8 {
         for (int j = 0; j < chessboard.length; j++) {
             for (int k = 0; k < chessboard[j].length; k++) {
                 if (chessboard[j][k] == 1) {
-                    for (int x = (-1) * 2; x <= 2; x++) {
-                        for (int y = 1; y <= 2; y++) {
-                            if (y + j >= BOARD_SIZE || y + j < 0 || x + k >= BOARD_SIZE || x + k < 0) {
-                                continue;
-                            }
-                            if (Math.abs(x) + Math.abs(y) != KNIGHT_LENGTH_MOVE) {
-                                continue;
-                            }
-                            if (chessboard[j + y][k + x] == 1) {
-                                return false;
-                            }
-                        }
+                    if (!findKnights(j, k, chessboard)) {
+                        return false;
                     }
+                }
+            }
+        }
+        return true;
+    }
+
+    public static boolean findKnights(int start, int toStart, int[][] chessboard) {
+        for (int x = (-1) * 2; x <= 2; x++) {
+            for (int y = 1; y <= 2; y++) {
+                if (y + toStart >= BOARD_SIZE || y + toStart < 0 || x + start >= BOARD_SIZE || x + start < 0) {
+                    continue;
+                }
+                if (Math.abs(x) + Math.abs(y) != KNIGHT_LENGTH_MOVE) {
+                    continue;
+                }
+                if (chessboard[toStart + y][start + x] == 1) {
+                    return false;
                 }
             }
         }
