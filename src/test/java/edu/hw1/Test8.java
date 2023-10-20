@@ -3,6 +3,8 @@ package edu.hw1;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Test8 {
 
@@ -29,8 +31,8 @@ public class Test8 {
             {1, 0, 0, 0, 1, 0, 1, 0},
         };
         //then
-        assertThat(Task8.knightBoardCapture(notBoard1)).isEqualTo(true);
-        assertThat(Task8.knightBoardCapture(notBoard2)).isEqualTo(true);
+        assertTrue(Task8.knightBoardCapture(notBoard1));
+        assertTrue(Task8.knightBoardCapture(notBoard2));
     }
 
 
@@ -51,7 +53,7 @@ public class Test8 {
         };
 
         //then
-        assertThat(Task8.knightBoardCapture(board)).isEqualTo(false);
+        assertFalse(Task8.knightBoardCapture(board));
     }
 
     @Test
@@ -78,7 +80,7 @@ public class Test8 {
                 {0, 0, 0, 0, 0, 1, 0, 0},
                 {1, 0, 0, 0, 0, 0, 0, 0}
                 };
-        assertThat(Task8.knightBoardCapture(board1)).isEqualTo(true);
-        assertThat(Task8.knightBoardCapture(board2)).isEqualTo(false);
+        assertTrue(Task8.knightBoardCapture(board1));
+        assertFalse(Task8.knightBoardCapture(board2));
     }
 }
