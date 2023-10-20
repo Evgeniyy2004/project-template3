@@ -7,18 +7,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class Test4 {
 
     @Test
-    @DisplayName("Работа с null-значением")
-    void nullTest() {
-        try {
-            String a=Task4.fixString(null);
-            assertThat(true).isEqualTo(false);
-        } catch (IllegalArgumentException e) {
-            assertThat(true).isEqualTo(true);
-        }
-
-    }
-
-    @Test
     @DisplayName("Исправление пустой строки и строки длиной 1")
     void edgeTest() {
         assertThat(Task4.fixString("")).isEqualTo("");

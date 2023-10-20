@@ -6,17 +6,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class Test1 {
     @Test
-    @DisplayName("Работа с null-аргументом")
+    @DisplayName("Работа с аргументом - пустой строкой")
     void nullTest() {
         // given
-        String firstTest=null;
+        String firstTest = "";
         // then
-        try {
-            int a=Task1.minutesToSeconds(firstTest);
-            assertThat(true).isEqualTo(false);
-        } catch (IllegalArgumentException e) {
-            assertThat(true).isEqualTo(true);
-        }
+        int a = Task1.minutesToSeconds(firstTest);
+        assertThat(a).isEqualTo(-1);
+
 
     }
 

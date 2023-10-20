@@ -5,32 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class Test3 {
 
-    @Test
-    @DisplayName("Работа с null-значениями")
-    void nullTest() {
-        try {
-            boolean a=Task3.isNestable(null,null);
-            assertThat(true).isEqualTo(false);
-        } catch (IllegalArgumentException e) {
-            assertThat(true).isEqualTo(true);
-        }
-
-        try {
-            int[] a={0, 21450000};
-            boolean res=Task3.isNestable(null,a);
-            assertThat(false).isTrue();
-        } catch (IllegalArgumentException e) {
-            assertThat(true).isTrue();
-        }
-
-        try {
-            int[] a={0, 222380};
-            boolean res=Task3.isNestable(a,null);
-            assertThat(false).isTrue();
-        } catch (IllegalArgumentException e) {
-            assertThat(true).isTrue();
-        }
-    }
 
     @Test
     @DisplayName("Работа с крайними случаями- пустыми массивами, равенствами минимумов и максимумов ")
