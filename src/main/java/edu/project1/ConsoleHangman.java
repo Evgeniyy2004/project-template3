@@ -1,8 +1,9 @@
 package edu.project1;
 
+import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.util.Scanner;
+
 
 class ConsoleHangman {
 
@@ -11,32 +12,36 @@ class ConsoleHangman {
     private final int limitation;
     private final String word;
 
-    public ConsoleHangman(int attempts, String yourWord)
-    {
-        if(attempts <= 2) {
+     ConsoleHangman(int attempts, String yourWord) {
+        if (attempts < 2) {
             throw new IllegalArgumentException();
         }
-        if(yourWord.length() < 2) throw new IllegalArgumentException();
-        for(int i = 0; i < yourWord.length(); i++){
-            if(!Character.isLetter(yourWord.charAt(i))){
+        if (yourWord.length() < 2) {
+            throw new IllegalArgumentException();
+        }
+        for (int i = 0; i < yourWord.length(); i++) {
+            if (!Character.isLetter(yourWord.charAt(i))) {
                 throw new IllegalArgumentException();
             }
         }
         this.limitation = attempts;
         this.word = yourWord;
     }
+
     public void run() {
-        int i = 0;
         boolean isfinished = false;
+        String lostString = "You lost!";
         String currentString = "*".repeat(word.length());
-        Session session = new Session(word, currentString.toCharArray(), limitation,0);
+        Session session = new Session(word, currentString.toCharArray(), limitation, 0);
         while (true) {
-            if(isfinished) break;
+            if (isfinished) {
+                break;
+            }
             LOGGER.info("Guess a letter:");
             String key = SCANNER.nextLine();
             if (key.toLowerCase().equals("give up")) {
-                LOGGER.info("The word: " +word);
-                LOGGER.info("You lost!");
+                LOGGER.info("The word: " + word);
+                LOGGER.info(lostString);
                 return;
             }
             if (key.length() != 1) {
@@ -48,14 +53,16 @@ class ConsoleHangman {
                     isfinished = true;
                 }
                 printState(result);
-                if(result.attempt() == result.maxAttempts()) break;
+                if (result.attempt() == result.maxAttempts()) {
+                    break;
+                }
             }
         }
 
         if (isfinished) {
             LOGGER.info("You won!");
         } else {
-            LOGGER.info("You lost!");
+            LOGGER.info(lostString);
         }
     }
 
@@ -63,8 +70,7 @@ class ConsoleHangman {
         return session.guess(input.charAt(0));
     }
 
-    private void printState(GuessResult guess)
-    {
+    private void printState(GuessResult guess) {
         LOGGER.info(guess.message());
         LOGGER.info("");
         LOGGER.info(new String(guess.state()));
