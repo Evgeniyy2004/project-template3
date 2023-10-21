@@ -21,15 +21,16 @@ class Session {
 
     @NotNull GuessResult guess(char guess){
         if(answer.contains(String.valueOf(guess))) {
-            char [] result = userAnswer;
-            for(int i = 0; i < answer.length(); i++){
-                if(answer.charAt(i) == guess) {
+            char[] result = userAnswer;
+            for (int i = 0; i < answer.length(); i++) {
+                if (answer.charAt(i) == guess) {
                     result[i] = guess;
                 }
             }
-            return new GuessResult.SuccessfulGuess(result,attempts+1, maxAttempts,"Hit!");
+            return new GuessResult.SuccessfulGuess(result,attempts , maxAttempts,"Hit!");
         } else {
-            return new GuessResult.FailedGuess(userAnswer,attempts+1, maxAttempts);
+            attempts += 1;
+            return new GuessResult.FailedGuess(userAnswer,attempts , maxAttempts);
         }
     };
 

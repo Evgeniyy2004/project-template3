@@ -13,17 +13,27 @@ class ConsoleHangman {
 
     public ConsoleHangman(int attempts, String yourWord)
     {
+        if(attempts <= 2) {
+            throw new IllegalArgumentException();
+        }
+        if(yourWord.length() < 2) throw new IllegalArgumentException();
+        for(int i = 0; i < yourWord.length(); i++){
+            if(!Character.isLetter(yourWord.charAt(i))){
+                throw new IllegalArgumentException();
+            }
+        }
         this.limitation = attempts;
         this.word = yourWord;
     }
     public void run() {
-
         int i = 0;
         boolean isfinished = false;
         String currentString = "*".repeat(word.length());
-        while (i < limitation || !isfinished) {
+        Session session = new Session(word, currentString.toCharArray(), limitation,0);
+        while (true) {
+            if(isfinished) break;
             LOGGER.info("Guess a letter:");
-            String key = SCANNER.next();
+            String key = SCANNER.nextLine();
             if (key.toLowerCase().equals("give up")) {
                 LOGGER.info("The word: " +word);
                 LOGGER.info("You lost!");
@@ -32,15 +42,20 @@ class ConsoleHangman {
             if (key.length() != 1) {
                 continue;
             } else {
-                Session session = new Session(word, currentString.toCharArray(), i, limitation);
                 GuessResult result = tryGuess(session, key);
                 currentString = new String(result.state());
-                if(currentString.equals(word)){
+                if (currentString.equals(word)) {
                     isfinished = true;
                 }
                 printState(result);
-                i++;
+                if(result.attempt() == result.maxAttempts()) break;
             }
+        }
+
+        if (isfinished) {
+            LOGGER.info("You won!");
+        } else {
+            LOGGER.info("You lost!");
         }
     }
 

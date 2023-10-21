@@ -95,7 +95,7 @@ sealed interface GuessResult {
 
         @Override
         public @NotNull String message() {
-            return  String.format("Missed, mistake {1} out of {2}",attempt,maxAttempts);
+            return  String.format("Missed, mistake %s out of %s",attempt,maxAttempts);
         }
     }
 }
