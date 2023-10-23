@@ -1,7 +1,5 @@
 package edu.project1;
 
-import edu.hw1.EvenArrayUtils;
-import edu.hw2.Task1;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
