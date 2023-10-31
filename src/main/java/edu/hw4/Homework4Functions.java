@@ -146,7 +146,7 @@ public class Homework4Functions {
     }
 
     public static Map<String, String> moreUnderstandable(@NotNull Animal[] all) {
-        var curr =checkFields(all).entrySet().stream();
+        var curr = checkFields(all).entrySet().stream();
         var result = curr.collect(Collectors.toMap(Map.Entry::getKey, r -> String.join(" ",r.getValue().stream().map(y->y.field+":"+y.message).toList())));
         return  result;
     }
