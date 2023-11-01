@@ -64,7 +64,7 @@ public class TestsForAll {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("Если количество самок и самцов одинаково - метод делает вывод, что самцов больше")
     void Test5() {
         Animal first = new Animal("first", Animal.Type.BIRD, Animal.Sex.M, 2, 12, 16, false);
         Animal second = new Animal("notfirst", Animal.Type.DOG, Animal.Sex.F, 16, 32, 10, true);
@@ -140,6 +140,19 @@ public class TestsForAll {
             fail("Рост всегда положительный");
         } catch (IllegalArgumentException exception) {
         }
+
+    }
+
+    @Test
+    @DisplayName("Значение верхнего предела роста k должно быть положительным")
+    void Test8dot1() {
+        Animal first = new Animal("first", Animal.Type.BIRD, Animal.Sex.M, 2, 12, 16, false);
+        Animal second = new Animal("notfirst", Animal.Type.DOG, Animal.Sex.F, 16, 32, 10, true);
+        Animal third = new Animal("noname", Animal.Type.SPIDER, Animal.Sex.F, 6, 9, 5, false);
+        Animal last = new Animal("john", Animal.Type.CAT, Animal.Sex.M, 8, 74, 14, true);
+        Animal anotherOne = new Animal("anna", Animal.Type.CAT, Animal.Sex.F, 5, 82, 18, true);
+        Animal lastOne = new Animal("last", Animal.Type.CAT, Animal.Sex.M, 5, 45, 14, true);
+        Animal [] all = new Animal[] {first, second, anotherOne, third, last, lastOne};
 
         var result = Homework4Functions.lessThanK(all, 2);
         assertThat(result).isEqualTo(Optional.empty());
@@ -306,11 +319,22 @@ public class TestsForAll {
         Animal last = new Animal("john", Animal.Type.CAT, Animal.Sex.M, 8, 100, 14, true);
         Animal anotherOne = new Animal("anna", Animal.Type.CAT, Animal.Sex.F, 5, 100, 18, true);
         Animal lastOne = new Animal("really last animal", Animal.Type.DOG, Animal.Sex.M, 5, 215, 220, false);
-        Animal [] all = new Animal[] {first, second, anotherOne, third, last, lastOne};
+        //Animal [] all = new Animal[] {first, second, anotherOne, third, last, lastOne};
 
         var firstRes = Homework4Functions.spidersVersusDogs(new Animal[]{first, last, anotherOne});
         assertFalse(firstRes);
+    }
 
+    @Test
+    @DisplayName("Если в массиве нет пауков или собак - возвращается false. Иначе сравнивается доля кусающих собак и доля кусающих пауков.")
+    void Test17dot1() {
+        Animal first = new Animal("first animal", Animal.Type.FISH, Animal.Sex.M, 2, 112, 16, false);
+        Animal second = new Animal("notfirst", Animal.Type.DOG, Animal.Sex.F, 16, 132, 10, true);
+        Animal third = new Animal("noname", Animal.Type.SPIDER, Animal.Sex.F, 6, 9, 5, true);
+        Animal last = new Animal("john", Animal.Type.CAT, Animal.Sex.M, 8, 100, 14, true);
+        Animal anotherOne = new Animal("anna", Animal.Type.CAT, Animal.Sex.F, 5, 100, 18, true);
+        Animal lastOne = new Animal("really last animal", Animal.Type.DOG, Animal.Sex.M, 5, 215, 220, false);
+        Animal [] all = new Animal[] {first, second, anotherOne, third, last, lastOne};
         var lastRes = Homework4Functions.spidersVersusDogs(all);
         assertTrue(lastRes);
     }

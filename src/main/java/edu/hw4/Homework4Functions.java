@@ -82,12 +82,13 @@ public class Homework4Functions {
         if (k <= 0) {
             throw new IllegalArgumentException();
         }
+        var streamOf = Stream.of(all);
         var notfiltered = Arrays.stream(all).filter(animal -> animal.height() < k);
         var filtered = notfiltered.sorted((one, two) -> two.weight() - one.weight());
         if (filtered.toList().isEmpty()) {
             return Optional.empty();
         } else {
-            return Optional.of(filtered.toList().getFirst());
+            return Optional.of(streamOf.toList().getFirst());
         }
     }
 
@@ -149,13 +150,15 @@ public class Homework4Functions {
         if (Arrays.stream(all).filter(animal -> animal.type() == Animal.Type.SPIDER).count() == 0) {
             return false;
         }
-        var stream = Arrays.stream(all);
+        var newall = Stream.of(all);
+        var stream = Stream.of(all);
+        //var stream = Arrays.stream(all);
         var first = Arrays.stream(all).filter(animal -> animal.type() == Animal.Type.SPIDER && animal.bites());
         var second = Arrays.stream(all).filter(animal -> animal.type() == Animal.Type.DOG && animal.bites());
         var forSpiders = first.count();
         var forDogs = second.count();
         var spidersResult = (double) forSpiders / stream.filter(animal -> animal.type() == Animal.Type.SPIDER).count();
-        var dogsResult = (double) forDogs / stream.filter(animal -> animal.type() == Animal.Type.DOG).count();
+        var dogsResult = (double) forDogs / newall.filter(animal -> animal.type() == Animal.Type.DOG).count();
         return  spidersResult > dogsResult;
     }
 
