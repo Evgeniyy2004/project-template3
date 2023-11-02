@@ -6,6 +6,7 @@ public final class Maze {
     public Cell[][] grid;
 
     public Maze (int one, int two) {
+
         grid = new Cell[one][two];
         height = one;
         width = two;

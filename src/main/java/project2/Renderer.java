@@ -7,7 +7,7 @@ import java.util.Map;
 public class Renderer {
     public String render(Maze maze){
         StringBuilder result = new StringBuilder();
-        for (int i =0; i < maze.grid[0].length; i++) result.append(" ＿");
+        for (int i =0; i < maze.grid[0].length; i++) result.append(" _");
         result.append("\n");
         for ( int r = 0; r < maze.grid.length; r++) {
             for (int i =0; i < maze.grid[0].length; i++) {
@@ -15,8 +15,8 @@ public class Renderer {
                     result.append("|");
                 } else result.append(" ");
                 if (maze.grid[r][i].wallBottom) {
-                    result.append("＿");
-                } else result.append(" ");
+                     result.append("_");}
+                else result.append(" ");
             }
             result.append("|");
             result.append("\n");
@@ -25,22 +25,18 @@ public class Renderer {
     }
     public String render(Maze maze, List<Point> path) {
         StringBuilder result = new StringBuilder();
-        for (int i =0; i < maze.grid[0].length; i++) result.append("＿");
-        int curr = 0;
+        for (int i =0; i < maze.grid[0].length; i++) result.append(" _");
+        result.append("\n");
         for ( int r = 0; r < maze.grid.length; r++) {
             for (int i =0; i < maze.grid[0].length; i++) {
                 if (maze.grid[r][i].wallLeft) {
                     result.append("|");
                 } else result.append(" ");
-                if (curr < path.size() && path.get(curr).x == r && path.get(curr).y == i) {
-                    if (maze.grid[r][i].wallBottom) {
-                        String utxt = String.join("\u0332", "0");
-                        result.append(utxt);
-                    } else result.append("0");
-                    curr++;
+                if (path.contains(new Point(r, i))) {
+                    result.append("0");
                 }
                 else if (maze.grid[r][i].wallBottom) {
-                    result.append("＿");
+                    result.append("_");
                 } else result.append(" ");
             }
             result.append("|");

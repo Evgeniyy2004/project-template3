@@ -35,7 +35,7 @@ public class MazeGenerator implements   Generator {
 
     private void RemoveWallsWithBacktracker(Cell [][] maze)
     {
-        Cell current = maze[0][0];
+        Cell current = maze[(int) (Math.random() * maze.length)][(int) (Math.random() * maze[0].length)];
         int [][] isVisited = new int[maze.length][maze[0].length];
         for(int r =0; r < isVisited.length; r++)
         {
@@ -43,7 +43,7 @@ public class MazeGenerator implements   Generator {
                 isVisited[r][y] = -1;
             }
         }
-        isVisited[0][0] = 0;
+        isVisited[current.x][current.y] = 0;
 
         Stack<Cell> stack = new Stack<Cell>();
         do
@@ -55,7 +55,7 @@ public class MazeGenerator implements   Generator {
 
             if (x > 0 && isVisited[x - 1][ y] == -1) unvisitedNeighbours.add(maze[x - 1][y]);
             if (y > 0 && isVisited[x][ y - 1] == -1) unvisitedNeighbours.add(maze[x] [y - 1]);
-            if (x < maze.length - 2 && isVisited[x + 1][y] == -1) unvisitedNeighbours.add(maze[x + 1] [y]);
+            if (x < maze.length - 1 && isVisited[x + 1][y] == -1) unvisitedNeighbours.add(maze[x + 1] [y]);
             if (y < maze[0].length - 1 && isVisited[x][y + 1] == -1) unvisitedNeighbours.add(maze[x][y + 1]);
 
             if (!unvisitedNeighbours.isEmpty())
