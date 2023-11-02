@@ -28,9 +28,7 @@ public class Task2 {
                 curr = new StringBuilder();
             }
         }
-  /*      if(!curr.isEmpty()) {
-            result.add(new String(curr));
-        }*/
+
         return result.toArray(new String[result.size()]);
     }
 }
