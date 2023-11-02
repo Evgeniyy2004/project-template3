@@ -7,7 +7,7 @@ import java.util.Map;
 public class Renderer {
     public String render(Maze maze){
         StringBuilder result = new StringBuilder();
-        for (int i =0; i < maze.grid[0].length; i++) result.append("＿");
+        for (int i =0; i < maze.grid[0].length; i++) result.append(" ＿");
         result.append("\n");
         for ( int r = 0; r < maze.grid.length; r++) {
             for (int i =0; i < maze.grid[0].length; i++) {

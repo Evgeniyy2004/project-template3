@@ -5,8 +5,8 @@ public class Cell{
     public Cell (int str, int row, boolean left, boolean right, boolean down, boolean up) {
         wallLeft = left;
         wallRight = right;
-        //down = wallBottom;
-        //up = wallUp;
+        wallBottom = down;
+        wallUp = up;
         y = row;
         x = str;
     }

@@ -11,7 +11,7 @@ import java.util.Stack;
 import java.util.Vector;
 
 public class Solver {
-    List<Point> solveByBFS(Maze maze, Point start, Point end) {
+    public List<Point> solveByBFS(Maze maze, Point start, Point end) {
         if(start == end) {
             var res = new ArrayList<Point>(1);
             res.add(0, start);
@@ -93,7 +93,7 @@ public class Solver {
         }
     }
 
-    List<Point> solveByDFS(Maze maze, Point start, Point end) {
+    public List<Point> solveByDFS(Maze maze, Point start, Point end) {
         if(start == end) {
             var res = new ArrayList<Point>(1);
             res.add(0, start);

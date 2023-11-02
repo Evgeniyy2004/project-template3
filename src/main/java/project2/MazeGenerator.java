@@ -19,16 +19,15 @@ public class MazeGenerator implements   Generator {
 
         for (int x = 0; x < maze.grid.length; x++)
         {
-            maze.grid[x][width - 1].wallRight = true;
+            //maze.grid[x][width - 1].wallRight = true;
         }
 
         for (int y = 0; y < maze.grid[0].length; y++)
         {
-            maze.grid[0][y].wallUp = true;
+            //maze.grid[0][y].wallUp = true;
         }
 
         RemoveWallsWithBacktracker(maze.grid);
-
 
 
         return maze;
