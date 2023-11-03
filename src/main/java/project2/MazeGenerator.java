@@ -7,6 +7,7 @@ import java.util.Stack;
 public class MazeGenerator implements   Generator {
     @Override
     public Maze generate(int height, int width) {
+
         Maze maze = new Maze(height, width);
 
         for (int x = 0; x < maze.grid.length; x++)
@@ -17,19 +18,7 @@ public class MazeGenerator implements   Generator {
             }
         }
 
-        for (int x = 0; x < maze.grid.length; x++)
-        {
-            //maze.grid[x][width - 1].wallRight = true;
-        }
-
-        for (int y = 0; y < maze.grid[0].length; y++)
-        {
-            //maze.grid[0][y].wallUp = true;
-        }
-
         RemoveWallsWithBacktracker(maze.grid);
-
-
         return maze;
     }
 

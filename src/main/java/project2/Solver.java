@@ -12,7 +12,7 @@ import java.util.Stack;
 import java.util.Vector;
 
 public class Solver {
-    public List<Point> solveByBFS(Maze maze, Point start, Point end) {
+    public List<Point> solveByBFS(@NotNull Maze maze, Point start, Point end) {
         if (start.x >= maze.grid.length || end.x >= maze.grid.length) {
             throw new IllegalArgumentException();
         } else if (start.y >= maze.grid[0].length || end.y >= maze.grid[0].length) {
@@ -42,7 +42,7 @@ public class Solver {
 
             var current = queue.pop();
             if (current.curr.x == end.x && current.curr.y  == end.y) {
-                res = new SinglyLinkedList(new Point(current.curr.x , current.curr.y ), current);
+                res = new SinglyLinkedList(new Point(current.curr.x , current.curr.y ), current.previous);
                 break;
             }
             for (int dx = -1; dx <= 1; dx++)
@@ -107,8 +107,9 @@ public class Solver {
         }
     }
 
-    public List<Point> solveByDFS(@NotNull  Maze maze, Point start, Point end) {
 
+
+    public List<Point> solveByDFS(@NotNull Maze maze, Point start, Point end) {
         if (start.x >= maze.grid.length || end.x >= maze.grid.length) {
             throw new IllegalArgumentException();
         } else if (start.y >= maze.grid[0].length || end.y >= maze.grid[0].length) {
@@ -135,7 +136,12 @@ public class Solver {
         paths.put(start, 0);
         while (!stack.isEmpty())
         {
+
             var current = stack.pop();
+            if (current.curr.x == end.x && current.curr.y  == end.y) {
+                res = new SinglyLinkedList(new Point(current.curr.x , current.curr.y ), current.previous);
+                break;
+            }
             for (int dx = -1; dx <= 1; dx++)
             {
                 for (int dy = -1; dy <= 1; dy++)
@@ -144,12 +150,12 @@ public class Solver {
                         current.curr.y + dy >= maze.grid[0].length||
                         current.curr.x + dx < 0 ||
                         current.curr.x + dx >= maze.grid.length ||
-                        dy != 0 && dx != 0 ||
-                        paths.get(new Point(current.curr.x + dx, current.curr.y + dy)) != -1) {
-                        continue;
-                    } else {
+                        (dy != 0 && dx != 0) ||
+                        paths.get(new Point(current.curr.x + dx, current.curr.y + dy)) != -1) continue;
+                    else
+                    {
 
-                        paths.put( new Point(current.curr.x + dx, current.curr.y + dy), paths.get(current.curr) + 1);
+
                         if (dx > 0) {
                             if (maze.grid[current.curr.x ][ current.curr.y].wallBottom) {
                                 continue;
@@ -171,10 +177,14 @@ public class Solver {
                             }
                         }
 
-                        if (current.curr.x + dx == end.x && current.curr.y + dy == end.y) {
-                            res = new SinglyLinkedList(new Point(current.curr.x + dx, current.curr.y + dy), current);
-                            break;
-                        }
+                        paths.put( new Point(current.curr.x + dx, current.curr.y + dy), paths.get(current.curr) + 1);
+                        /*if (chests1.ContainsKey(new Point(current.curr.x + dx, current.curr.y + dy)))
+                        {
+                            //chests1.Remove(new Point(current.Value.X + dx, current.Value.Y + dy));
+                            //yield return new SinglyLinkedList<Point>
+                            (new Point(current.curr.x + dx, current.curr.y + dy),current);
+                        }*/
+
                         stack.push(new SinglyLinkedList(new Point(current.curr.x + dx, current.curr.y + dy), current));
                     }
                 }
