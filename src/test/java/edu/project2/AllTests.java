@@ -4,9 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import project2.MazeGenerator;
-import project2.Renderer;
-import project2.Solver;
+import anotherproject.MazeGenerator;
+import anotherproject.Renderer;
+import anotherproject.Solver;
 import java.awt.Point;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -119,9 +119,6 @@ public class AllTests {
             fail("Должно быть возвращено исключение");
         }  catch (IllegalArgumentException exception) {
         }
-
-
-
 
     }
 }

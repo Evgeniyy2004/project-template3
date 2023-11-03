@@ -1,4 +1,4 @@
-package project2;
+package anotherproject;
 
 
 public interface Generator {

@@ -1,8 +1,8 @@
-package project2;
+package anotherproject;
 
-public class Cell{
+public class Cell {
 
-    public Cell (int str, int row, boolean left, boolean right, boolean down, boolean up) {
+    public Cell(int str, int row, boolean left, boolean right, boolean down, boolean up) {
         wallLeft = left;
         wallRight = right;
         wallBottom = down;
@@ -13,7 +13,7 @@ public class Cell{
 
     public int x;
     public int y;
-    public boolean wallBottom ;
+    public boolean wallBottom;
     public  boolean wallLeft;
     public boolean wallRight;
     public boolean wallUp;
