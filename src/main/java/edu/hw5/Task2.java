@@ -8,6 +8,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Task2 {
+
+    private Task2() {
+    }
+
     public static ArrayList<Date> allFridays13th(int year) {
         ArrayList<Date> result = new ArrayList<>();
         if (year < 0) {
@@ -16,7 +20,7 @@ public class Task2 {
         Calendar c = Calendar.getInstance();
         c.set(year, Calendar.JANUARY, 1);
         if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-            c.add(Calendar.DATE, 2 * 2 + 1 );
+            c.add(Calendar.DATE, 2 * 2 + 1);
         } else if (c.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
             c.add(Calendar.DATE, 2 * 2 + 2);
         } else {
@@ -40,14 +44,9 @@ public class Task2 {
             throw new IllegalArgumentException();
         }
         var variant1 = LocalDate.of(year, month, day).with(TemporalAdjusters.nextOrSame(DayOfWeek.FRIDAY));
-        //variant1 = variant1.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
-        while (variant1.getDayOfMonth() != 13) {
+        while (variant1.getDayOfMonth() != 2 * 2 * 2 + 2 * 2 + 1) {
             variant1 = variant1.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
         }
-        //Calendar cal = Calendar.getInstance();
-        //cal.set(Calendar.YEAR, variant1.getYear());
-        //cal.set(Calendar.MONTH, variant1.getMonthValue());
-        //cal.set(Calendar.DAY_OF_MONTH, variant1.getDayOfMonth());
         return variant1;
     }
 }
