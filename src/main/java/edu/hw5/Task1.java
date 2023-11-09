@@ -1,30 +1,38 @@
 package edu.hw5;
 
-import org.jetbrains.annotations.NotNull;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import org.jetbrains.annotations.NotNull;
+
 
 public class Task1 {
-    public static Duration averageTime(@NotNull String[] all)  throws ParseException {
+
+    private Task1() {
+
+    }
+
+    public static Duration averageTime(@NotNull String[] all) {
         var allDurations = Arrays.stream(all).map(x -> {
+            var s = String.join("", x.split(" "));
             int now = 0;
-            for (int i = 0; i < x.length(); i++) {
-                if (now == 2 && x.charAt(i) == '-') {
+            for (int i = 0; i < s.length(); i++) {
+                if (now == 2 && s.charAt(i) == '-') {
                     now = i;
                     break;
-                } else if (x.charAt(i) == '-') {
+                } else if (s.charAt(i) == '-') {
                     now++;
                 }
             }
-            var first = LocalDateTime.parse(x.substring(0,now - 1));
-            var second = LocalDateTime.parse(x.substring(now +1, x.length() - now - 1));
+            var one = String.join(" ", s.substring(0, now).split(","));
+            var two = String.join(" ", s.substring(now + 1, s.length()).split(","));
+            var format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            var first = LocalDateTime.parse(one, format);
+            var second = LocalDateTime.parse(two, format);
             return Duration.between(first, second);
-            });
-        var milliSeconds =  allDurations.mapToLong(Duration::toMillis).sum()/allDurations.count();
+        }).mapToLong(Duration::toMillis);
+        var milliSeconds = allDurations.sum() / all.length;
         return Duration.ofMillis(milliSeconds);
 
     }

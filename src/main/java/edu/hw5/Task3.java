@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 import static java.util.Map.entry;
 
 public class Task3 {
@@ -18,31 +19,40 @@ public class Task3 {
     );
     public static Optional<LocalDate> oneOfFormats(@NotNull String str) {
         Optional<LocalDate> result = Optional.empty();
+        var currStr = String.join("",str.split(" "));
         try {
-             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd");
-             var curr = LocalDate.parse(str, formatter);
+             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+             var curr = LocalDate.parse(currStr, formatter);
              return Optional.of(curr);
 
         } catch (DateTimeParseException exception) {
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                var curr = LocalDate.parse(str, formatter);
-                return Optional.of(curr);
-            } catch (DateTimeParseException exception1) {
-            }
         }
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-            var curr = LocalDate.parse(str, formatter);
+            var curr = LocalDate.parse(currStr, formatter);
             return Optional.of(curr);
         } catch (DateTimeParseException e){
         }
-        var curr =str.split(" ");
-        if (oneWord.containsKey(curr)) {
-            return Optional.of(LocalDate.now().plusDays(oneWord.get(curr)));
+        if (currStr.contains("/")) {
+            var first = currStr.split("/")[0].length();
+            var second = currStr.split("/")[1].length();
+            var third = currStr.split("/")[2].length();
+            StringBuilder now = new StringBuilder();
+            now.append("d".repeat(first)+"/");
+            now.append("M".repeat(second)+"/");
+            now.append("y".repeat(third));
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(now.toString());
+            var curr = LocalDate.parse(currStr, formatter);
+            return Optional.of(curr);
         }
-        if (Arrays.stream(curr).filter(r -> r.equals("ago")).count() > 0 ) {
-            return Optional.of(LocalDate.now().minusDays(Integer.parseInt(curr[0])));
+        var curr = str.split(" ", -1);
+        var stream =Arrays.stream(curr);
+        if (oneWord.containsKey(String.join("", curr))) {
+            return Optional.of(LocalDate.now().plusDays(oneWord.get(String.join("", curr))));
+        }
+        if (stream.filter(r -> r.equals("ago")).count() > 0 ) {
+            var noEmpties = Stream.of(curr).filter(r -> !r.isEmpty()).toArray();
+            return Optional.of(LocalDate.now().minusDays(Integer.parseInt(noEmpties[0].toString())));
         }
         return result;
     }
