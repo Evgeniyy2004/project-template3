@@ -4,15 +4,16 @@ import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.function.Predicate;
 
 public class AbstractFilter implements DirectoryStream.Filter<Path> {
         // TODO
 
-        public AbstractFilter(long size, String glob, ) {
+        public AbstractFilter(long size, String glob, boolean readable, boolean writeable, ) {
 
         }
-        public static final AbstractFilter regularFile = Files::isRegularFile;
-        public static final AbstractFilter readable = Files::isReadable;
+        public static final Predicate<Path>  regularFile = Files::isRegularFile;
+        public static final Predicate<Path> readable = Files::isReadable;
 
         DirectoryStream.Filter<Path> filter = regularFile
             .and(readable)
@@ -22,9 +23,7 @@ public class AbstractFilter implements DirectoryStream.Filter<Path> {
             .and(regexContains("[-]"));
 
 
-        public boolean largerThan(long maybe) {
-            if ()
-        }
+
 
     @Override
     public boolean accept(Path entry) throws IOException {
