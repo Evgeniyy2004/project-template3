@@ -1,18 +1,15 @@
 package edu.hw6;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
-import org.apache.commons.io.IOUtils;
 import static java.net.http.HttpClient.newHttpClient;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HackerNews {
     public long[] hackerNewsTopStories() {
@@ -38,9 +35,8 @@ public class HackerNews {
 
     }
 
-    public String news(long id) throws URISyntaxException, IOException {
+    public String news(long id) {
         String myRegex = String.format("https://hacker-news.firebaseio.com/v0/item/%d.json",id);
-        String json = IOUtils.toString(new URI(myRegex), Charset.forName("UTF-8"));
-        var object =  new JacksonFactory
+        return ((JsonObject) new JsonParser().parse(myRegex)).get("title").toString();
     }
 }
