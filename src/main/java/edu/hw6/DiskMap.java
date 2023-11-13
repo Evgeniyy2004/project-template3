@@ -31,7 +31,6 @@ public class DiskMap implements  Map<String, String>{
             Files.write(path,"".getBytes());
         } catch (IOException e) {
         }
-
     }
 
     @Override
@@ -56,18 +55,22 @@ public class DiskMap implements  Map<String, String>{
 
     @Override
     public String get(Object key) {
-        return associativeArray.get(key);
+        var a = associativeArray.get(key);
+        return a;
     }
 
     @Nullable
     @Override
     public String put(String key, String value) {
-        return associativeArray.put(key, value);
+        var a = associativeArray.put(key, value);
+        WriteAgain();
+        return a;
     }
 
     @Override
     public String remove(Object key) {
         if (associativeArray.containsKey(key)) {
+            WriteAgain();
             return associativeArray.remove(key);
         }
         return null;
@@ -76,19 +79,14 @@ public class DiskMap implements  Map<String, String>{
     @Override
     public void putAll(@NotNull Map<? extends String, ? extends String> m) {
         associativeArray.putAll(m);
-        try {
-            WriteAgain();
-        } catch (IOException exception) {
-        }
+        WriteAgain();
+
     }
 
     @Override
     public void clear() {
         associativeArray.clear();
-        try {
-            WriteAgain();
-        } catch (IOException exception) {
-        }
+        WriteAgain();
     }
 
     @NotNull
@@ -109,13 +107,16 @@ public class DiskMap implements  Map<String, String>{
         return associativeArray.entrySet();
     }
 
-    public void WriteAgain() throws IOException {
-        path.toFile().delete();
-        path.toFile().createNewFile();
-        var streamOfWrite = new FileOutputStream(path.toFile());
-        for (String s : associativeArray.keySet()) {
-            var curr = s+":"+associativeArray.get(s);
-            streamOfWrite.write(curr.getBytes());
+    public void WriteAgain() {
+        try {
+            path.toFile().delete();
+            path.toFile().createNewFile();
+            var streamOfWrite = new FileOutputStream(path.toFile());
+            for (String s : associativeArray.keySet()) {
+                var curr = s + ":" + associativeArray.get(s);
+                streamOfWrite.write(curr.getBytes());
+            }
+        } catch (IOException e) {
         }
     }
 }
