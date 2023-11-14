@@ -1,7 +1,5 @@
 package edu.hw6;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.jetbrains.annotations.NotNull;
@@ -21,14 +20,26 @@ public class DiskMap implements  Map<String, String>{
     private HashMap<String, String> associativeArray = new HashMap<>();
     Path path;
     public DiskMap() {
-        path = Paths.get("DiskMap.txt");
+        path = Paths.get("DiskMap.txt").toAbsolutePath();
         int i = 0;
         try {
             while (directoryContains(path.getParent().toFile(), path.toFile())) {
-                path = Paths.get("DiskMap" + i + ".txt");
+                path = Paths.get("DiskMap" + (i + 1) + ".txt").toAbsolutePath();
                 i += 1;
             }
             Files.write(path,"".getBytes());
+        } catch (IOException e) {
+        }
+    }
+
+    public DiskMap(Path pathToFile) {
+        path = pathToFile;
+        try {
+        List<String> all = Files.readAllLines(pathToFile);
+        for (int j = 0; j < all.size(); j++) {
+            var currPair = all.get(j).split(":");
+            associativeArray.put(currPair[0], currPair[1]);
+        }
         } catch (IOException e) {
         }
     }
@@ -70,8 +81,9 @@ public class DiskMap implements  Map<String, String>{
     @Override
     public String remove(Object key) {
         if (associativeArray.containsKey(key)) {
+            var  c = associativeArray.remove(key);
             WriteAgain();
-            return associativeArray.remove(key);
+            return c;
         }
         return null;
     }
@@ -80,7 +92,6 @@ public class DiskMap implements  Map<String, String>{
     public void putAll(@NotNull Map<? extends String, ? extends String> m) {
         associativeArray.putAll(m);
         WriteAgain();
-
     }
 
     @Override
@@ -113,7 +124,7 @@ public class DiskMap implements  Map<String, String>{
             path.toFile().createNewFile();
             var streamOfWrite = new FileOutputStream(path.toFile());
             for (String s : associativeArray.keySet()) {
-                var curr = s + ":" + associativeArray.get(s);
+                var curr = s + ":" + associativeArray.get(s)+"\n";
                 streamOfWrite.write(curr.getBytes());
             }
         } catch (IOException e) {
