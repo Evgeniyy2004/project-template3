@@ -7,6 +7,5 @@ public class Test2 {
     @Test
     @DisplayName("cloneFile добавляет к имени файла слово \'копия\' и номер последней версии файла плюс единица (начиная с 1)")
     void checkCloning() {
-
     }
 }
