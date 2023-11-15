@@ -8,6 +8,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import static java.net.http.HttpClient.newHttpClient;
@@ -23,10 +24,11 @@ public class HackerNews {
                 .build();
             var client = newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofString());
-            var str = client.body().split(",");
-            long[] result = new long[str.length];
-            for (int i = 0; i < str.length; i++) {
-                result[i] = Long.parseLong(str[i]);
+            var str = client.body().split("]|,|\\[");
+            var res = Arrays.stream(str).filter(x -> !x.isEmpty()).toList();
+            long[] result = new long[(int) res.size()];
+            for (int i = 0; i < res.size(); i++) {
+                result[i] = Long.parseLong(res.get(i));
             }
             return result;
 
@@ -37,7 +39,7 @@ public class HackerNews {
     }
 
     public String news(long id) throws IOException, URISyntaxException {
-        String myRegex = String.format("https://hacker-news.firebaseio.com/v0/item/%d.json",id);
+        String myRegex = String.format("https://hacker-news.firebaseio.com/v0/item/%d.json", id);
         return (new JSONObject(IOUtils.toString(new URL(myRegex)))).get("title").toString();
     }
 }
