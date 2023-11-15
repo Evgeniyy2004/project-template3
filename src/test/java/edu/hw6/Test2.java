@@ -3,6 +3,7 @@ package edu.hw6;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.apache.commons.io.FileUtils.directoryContains;
@@ -16,10 +17,10 @@ public class Test2 {
         try {
             Task2.cloneFile(new File("DiskMap.txt").toPath());
             var file = new File("DiskMap-копия.txt");
-            assertTrue(directoryContains(new File("C:\\Users\\user\\IdeaProjects\\project-template3"), file));
+            assertTrue(directoryContains(Paths.get("").toAbsolutePath().toFile(), file));
             Task2.cloneFile(new File("DiskMap.txt").toPath());
             file = new File("DiskMap-копия(1).txt");
-            assertTrue(directoryContains(new File("C:\\Users\\user\\IdeaProjects\\project-template3"), file));
+            assertTrue(directoryContains(Paths.get("").toAbsolutePath().toFile(), file));
 
             //сравнение содержимого файлов
             var one = Files.readAllLines(file.toPath());
