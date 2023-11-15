@@ -13,16 +13,16 @@ import org.jetbrains.annotations.NotNull;
 public class AbstractFilter  {
     // TODO
 
-    public static DirectoryStream.Filter<Path> magicNumber(char [] start) {
+    public static DirectoryStream.Filter<Path> magicNumber(byte[] args) {
         return new DirectoryStream.Filter<Path>() {
             @Override
             public boolean accept(Path entry) throws IOException {
                 try (InputStream is = new FileInputStream(String.valueOf(entry))) {
                     byte[] bytes = new byte[is.readAllBytes().length];
                     is.read(bytes);
-                    if (bytes.length < start.length) return false;
-                    for (int i = 0; i < start.length; i++) {
-                        if (start[i] != (char) bytes[i]) return false;
+                    if (bytes.length < args.length) return false;
+                    for (int i = 0; i < args.length; i++) {
+                        if (args[i] != bytes[i]) return false;
                     }
                     return true;
                 }
@@ -72,7 +72,7 @@ public class AbstractFilter  {
             @Override
             public boolean accept(Path entry) throws IOException {
                 var extension = FilenameUtils.getExtension(entry.toString());
-                return (extension.replaceAll("\\*","").equals(entry.toString()));
+                return (extension.equals(glob));
             }
         };
         return filter;
