@@ -18,8 +18,7 @@ public class AbstractFilter  {
             @Override
             public boolean accept(Path entry) throws IOException {
                 try (InputStream is = new FileInputStream(String.valueOf(entry))) {
-                    byte[] bytes = new byte[is.readAllBytes().length];
-                    is.read(bytes);
+                    byte[] bytes = is.readAllBytes();
                     if (bytes.length < args.length) return false;
                     for (int i = 0; i < args.length; i++) {
                         if (args[i] != bytes[i]) return false;

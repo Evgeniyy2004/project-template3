@@ -2,6 +2,9 @@ package edu.hw6;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -14,8 +17,8 @@ public class Test3 {
     @Test
     @DisplayName("Каждая из реализаций DirectoryStream.Filter проверяет соответствие файла одному из признаков")
     void regexFilterCheck() {
-        var withRegex = AbstractFilter.regularFile("a");
-        var second = AbstractFilter.regularFile("^mvnw$");
+        var withRegex = new RegularFile("a");
+        var second = new RegularFile("^mvnw$");
         try {
             assertTrue(withRegex.accept(new File("DiskMap.txt").toPath()));
             assertTrue(withRegex.accept(new File(".gitattributes").toPath()));
@@ -32,7 +35,7 @@ public class Test3 {
     @Test
     @DisplayName("Фильтр, создаваемый методом largerThan сравнивает размер файла в байтах и данное ограничение по размеру")
     void sizeFilterCheck() {
-        var filter = AbstractFilter.largerThan(2048L);
+        var filter = new LargerThan(2048L);
         try {
             assertTrue(filter.accept(new File(".editorconfig").toPath()));
             assertFalse(filter.accept(new File(".gitignore").toPath()));
@@ -45,8 +48,8 @@ public class Test3 {
     @Test
     @DisplayName("writeable и readable создают фильтры, определяющие доступен ли файл для записи или чтения")
     void ableFilterCheck() {
-        var one = AbstractFilter.readable();
-        var second = AbstractFilter.writeable();
+        var one = new Readable();
+        var second = new Writeable();
         try {
             assertTrue(one.accept(new File("DiskMap.txt").toPath()));
             assertTrue(one.accept(new File(".gitattributes").toPath()));
@@ -59,9 +62,9 @@ public class Test3 {
     }
 
     @Test
-    @DisplayName("extension создает фильтр, проверяющий, совпадают ли заданное в качестве параметра расширение и расширение файла")
+    @DisplayName("Extension создает фильтр, проверяющий, совпадают ли заданное в качестве параметра расширение и расширение файла")
     void extensionFilterCheck() {
-        var one = AbstractFilter.extension("xml");
+        var one = new Extension("xml");
         try {
             assertFalse(one.accept(new File("DiskMap.txt").toPath()));
             assertFalse(one.accept(new File("mvnw").toPath()));
@@ -73,13 +76,35 @@ public class Test3 {
     }
 
     @Test
-    @DisplayName("Фильтр, создаваемый метод magicNumber проверяет ")
+    @DisplayName("Фильтр MagicNumber проверяет начальные байты файла")
     void magicNumberFilterCheck() {
-        var one = AbstractFilter.magicNumber(new byte[]{89,'P', 'N','G'});
+        var one = new MagicNumber(new byte[]{(byte)0x89,'P', 'N','G'});
         try {
             assertTrue(one.accept(new File("img.png").toPath()));
         } catch (IOException e) {
             fail();
         }
+    }
+
+    @Test
+    @DisplayName("Каждый из фильтров может быть объединен с другим фильтром")
+    void unityOfFilters() {
+        var filter1 = new LargerThan(1023L);
+        var resFilter = filter1.and(new Extension("cmd"));
+        var directory = new File("C:\\Users\\user\\IdeaProjects\\project-template3").toPath();
+
+        try {
+            try (var result = Files.newDirectoryStream(directory, resFilter)) {
+                int i = 0;
+                for (Path c : result) {
+                    if (i == 2) fail();
+                    if (Files.size(c) <= filter1.SIZE) fail();
+                    if (!FilenameUtils.getExtension(c.toString()).equals("cmd")) fail();
+                    i++;
+                }
+            }
+        } catch (IOException e) {
+        }
+
     }
 }
