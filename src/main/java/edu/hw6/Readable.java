@@ -9,6 +9,7 @@ public class Readable implements DirectoryStream.Filter<Path> {
 
     public Readable() {
     }
+
     @Override
     public boolean accept(Path entry) throws IOException {
         return Files.isReadable(entry);

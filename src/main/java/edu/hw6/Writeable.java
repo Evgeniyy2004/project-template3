@@ -9,6 +9,8 @@ public class Writeable implements DirectoryStream.Filter<Path> {
 
     public Writeable() {
     }
+
+
     @Override
     public boolean accept(Path entry) throws IOException {
         return Files.isWritable(entry);

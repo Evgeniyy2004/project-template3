@@ -98,7 +98,7 @@ public class Test3 {
                 int i = 0;
                 for (Path c : result) {
                     if (i == 2) fail();
-                    if (Files.size(c) <= filter1.SIZE) fail();
+                    if (Files.size(c) <= filter1.size) fail();
                     if (!FilenameUtils.getExtension(c.toString()).equals("cmd")) fail();
                     i++;
                 }

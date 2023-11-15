@@ -14,13 +14,16 @@ import org.json.JSONObject;
 import static java.net.http.HttpClient.newHttpClient;
 
 public class HackerNews {
+
+    private static final int TIME_OF = 30;
+
     public long[] hackerNewsTopStories() {
         try {
             var request = HttpRequest.newBuilder()
                 .uri(new URI("https://hacker-news.firebaseio.com/v0/topstories.json"))
                 .GET()
                 .header("nothing", "special")
-                .timeout(Duration.of(30, ChronoUnit.SECONDS))
+                .timeout(Duration.of(TIME_OF, ChronoUnit.SECONDS))
                 .build();
             var client = newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofString());

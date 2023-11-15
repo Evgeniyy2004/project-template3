@@ -7,11 +7,15 @@ import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+@SuppressWarnings("all")
 public class Task6 {
 
     private final static Logger LOGGER = LogManager.getLogger();
 
-    @SuppressWarnings("A lot of big numbers")
+    private Task6() {
+    }
+
+    @SuppressWarnings("all")
     public static boolean check(int port) {
         if (port > 65535 || port < 0) {
             throw new IllegalArgumentException();
@@ -44,7 +48,7 @@ public class Task6 {
             } catch (IOException e) {
                 try {
                     unknown.put(i, new ServerSocket(i));
-                } catch (IOException e1) {
+                } catch (IOException exception) {
 
                 }
             }
@@ -57,7 +61,7 @@ public class Task6 {
             }
             String p = (curr % 2 == 0) ? "UDP" : "TCP";
             String s = known.getOrDefault(curr, "");
-            String result = String.format("%8.8s  %5.5s  %1.50s", p, ""+curr, s);
+            String result = String.format("%8.8s  %5.5s  %1.50s", p, "" + curr, s);
             LOGGER.info(result);
             curr += Math.random() * 100;
         }
@@ -72,7 +76,7 @@ public class Task6 {
                 try {
                     unknown.get(i).close();
                     unknown.get(i).close();
-                } catch (IOException e1) {
+                } catch (IOException exception) {
                 }
             }
             return false;

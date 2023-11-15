@@ -11,20 +11,25 @@ import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
 
 public class Task4 {
+
+    private static final int LIMIT_OF = 100;
+
+    @SuppressWarnings("all")
     void printText(Path path) {
         try {
             Files.createFile(path);
             try (var stream = Files.newOutputStream(path)) {
                 try (var checkStream = new CheckedOutputStream(stream, new CRC32())) {
-                   try (var buffer = new BufferedOutputStream(checkStream, 100)) {
-                       try (var writer = new OutputStreamWriter(buffer, StandardCharsets.UTF_8)) {
-                           try (var end = new PrintWriter(writer, true)) {
-                               end.write("Programming is learned by writing programs. ― Brian Kernighan");
-                           }
-                       }
-                   }
+                    try (var buffer = new BufferedOutputStream(checkStream, LIMIT_OF)) {
+                        try (var writer = new OutputStreamWriter(buffer, StandardCharsets.UTF_8)) {
+                            try(var end = new PrintWriter(writer, true)) {
+                                end.write("Programming is learned by writing programs. ― Brian Kernighan");
+                            }
+                        }
+                    }
                 }
             }
+
         } catch (IOException e) {
             return;
         }

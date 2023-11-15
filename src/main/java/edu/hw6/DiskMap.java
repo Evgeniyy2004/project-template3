@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import static org.apache.commons.io.FileUtils.directoryContains;
 
-public class DiskMap implements  Map<String, String>{
-
+public class DiskMap implements Map<String, String> {
 
     private HashMap<String, String> associativeArray = new HashMap<>();
     Path path;
+
     public DiskMap() {
         path = Paths.get("DiskMap.txt").toAbsolutePath();
         int i = 0;
@@ -27,7 +27,7 @@ public class DiskMap implements  Map<String, String>{
                 path = Paths.get("DiskMap" + (i + 1) + ".txt").toAbsolutePath();
                 i += 1;
             }
-            Files.write(path,"".getBytes());
+            Files.write(path, "".getBytes());
         } catch (IOException e) {
         }
     }
@@ -35,11 +35,11 @@ public class DiskMap implements  Map<String, String>{
     public DiskMap(Path pathToFile) {
         path = pathToFile;
         try {
-        List<String> all = Files.readAllLines(pathToFile);
-        for (int j = 0; j < all.size(); j++) {
-            var currPair = all.get(j).split(":");
-            associativeArray.put(currPair[0], currPair[1]);
-        }
+            List<String> all = Files.readAllLines(pathToFile);
+            for (int j = 0; j < all.size(); j++) {
+                var currPair = all.get(j).split(":");
+                associativeArray.put(currPair[0], currPair[1]);
+            }
         } catch (IOException e) {
         }
     }
@@ -74,15 +74,15 @@ public class DiskMap implements  Map<String, String>{
     @Override
     public String put(String key, String value) {
         var a = associativeArray.put(key, value);
-        WriteAgain();
+        writeAgain();
         return a;
     }
 
     @Override
     public String remove(Object key) {
         if (associativeArray.containsKey(key)) {
-            var  c = associativeArray.remove(key);
-            WriteAgain();
+            var c = associativeArray.remove(key);
+            writeAgain();
             return c;
         }
         return null;
@@ -91,13 +91,13 @@ public class DiskMap implements  Map<String, String>{
     @Override
     public void putAll(@NotNull Map<? extends String, ? extends String> m) {
         associativeArray.putAll(m);
-        WriteAgain();
+        writeAgain();
     }
 
     @Override
     public void clear() {
         associativeArray.clear();
-        WriteAgain();
+        writeAgain();
     }
 
     @NotNull
@@ -118,13 +118,13 @@ public class DiskMap implements  Map<String, String>{
         return associativeArray.entrySet();
     }
 
-    public void WriteAgain() {
+    public void writeAgain() {
         try {
             path.toFile().delete();
             path.toFile().createNewFile();
             var streamOfWrite = new FileOutputStream(path.toFile());
             for (String s : associativeArray.keySet()) {
-                var curr = s + ":" + associativeArray.get(s)+"\n";
+                var curr = s + ":" + associativeArray.get(s) + "\n";
                 streamOfWrite.write(curr.getBytes());
             }
         } catch (IOException e) {

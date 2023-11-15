@@ -7,22 +7,22 @@ import java.util.regex.Pattern;
 
 public class RegularFile implements DirectoryStream.Filter<Path> {
 
-    private final String REGEX;
+    private final String regex;
 
     public RegularFile(String regex) {
-        REGEX = regex;
+        this.regex = regex;
     }
 
     @Override
     public boolean accept(Path entry) throws IOException {
-        return Pattern.compile(REGEX).matcher(entry.getFileName().toString()).find();
+        return Pattern.compile(regex).matcher(entry.getFileName().toString()).find();
     }
 
     public DirectoryStream.Filter<java.nio.file.Path> and(DirectoryStream.Filter<java.nio.file.Path> a) {
         return new DirectoryStream.Filter<java.nio.file.Path>() {
             @Override
             public boolean accept(java.nio.file.Path entry) throws IOException {
-                return new RegularFile(REGEX).accept(entry) && a.accept(entry);
+                return new RegularFile(regex).accept(entry) && a.accept(entry);
             }
         };
     }
