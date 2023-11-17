@@ -1,6 +1,5 @@
 package edu.project3;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -13,24 +12,24 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
-import java.util.Vector;
-import java.util.logging.Level;
 import java.util.logging.LogRecord;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class LogAnalyst {
 
-    HashMap<String, Long> sources = new HashMap<>();
-    HashMap<String, Integer> codeOfRequestAnswer = new HashMap<>();
-    List<LogRecord> result = new Vector<>();
+    private static final String LOG_ENTRY_PATTERN =
+        "^(\\S+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+\\-]\\d{4})\\] \"(.+?)\" (\\d{3}) (\\S+) (\\d+)\"(.*?)\" \"(.*?)\"$";
+    private static final String FOR_REQUEST = "^([A-Z])+(\\S)+(.*)(\\S)+HTTP\\/([0-9])+.[0-9]$";
+    private static final Pattern pattern = Pattern.compile(LOG_ENTRY_PATTERN);
+    private static final Pattern newPattern = Pattern.compile(FOR_REQUEST);
 
     public Stream<LogRecord> ngixStats() throws IOException {
         Scanner terminalInput = new Scanner(System.in);
-        List<LogRecord> result = new Vector<>();
         HashMap<String, Long> resources = new HashMap<>();
-        HashMap<Long, Long> codeOfRequestAnswer = new HashMap<>();
+        HashMap<Integer, Long> codeOfRequestAnswer = new HashMap<>();
         for (int i = 0; i < 1; i++) {
             var curr = terminalInput.nextLine();
             var all = curr.split("--");
@@ -42,43 +41,34 @@ public class LogAnalyst {
             var format = Arrays.stream(all).filter(r -> r.startsWith("format")).findFirst();
             long sumOfAnswersSizes = 0;
             way = way.replace("path", "");
-            String [] currInfo = new String[0];
+
             try {
+                String[] currInfo;
                 var currStream = new URL(way).openStream();
                 currInfo = new String(currStream.readAllBytes(), StandardCharsets.UTF_8).split("\n");
-
+                for (int k = 0; k < currInfo.length; k++) {
+                    Matcher matcher = pattern.matcher(currInfo[k]);
+                    String requestLine = matcher.group(5);
+                    String statusCode = matcher.group(6);
+                    String bytes = matcher.group(7);
+                    Matcher newMatcher = newPattern.matcher(requestLine);
+                    String resource = newMatcher.group(3).replace(" ", "");
+                    if (resources.containsKey(resource)) {
+                        resources.put(resource, resources.get(resource) + 1);
+                    } else {
+                        resources.put(resource, 1L);
+                    }
+                    sumOfAnswersSizes += Integer.parseInt(bytes);
+                    var code = Integer.parseInt(statusCode);
+                    if (codeOfRequestAnswer.containsKey(code)) {
+                        codeOfRequestAnswer.put(code, codeOfRequestAnswer.get(code) + 1);
+                    } else {
+                        codeOfRequestAnswer.put(code, 1L);
+                    }
+                }
+                sumOfAnswersSizes /= currInfo.length;
             } catch (IOException e) {
 
-                var currStream = new File(way);
-                currInfo = new String(Files.readAllBytes(currStream.toPath()), StandardCharsets.UTF_8).split("\n");
-            } finally {
-                for (int k = 0; k < currInfo.length; k++) {
-                    var now = new LogRecord(Level.ALL, currInfo[i]);
-                    /*if (format.isEmpty()) {
-                        howToPrint.put(now, "adoc");
-                    } else {
-                        if (String.valueOf(format).contains("adoc")) {
-                            howToPrint.put(now, "adoc");
-                        } else {
-                            howToPrint.put(now, "markdown");
-                        }
-                    }*/
-                    if (codeOfRequestAnswer.containsKey(now.getLongThreadID())) {
-                        codeOfRequestAnswer.put(now.getLongThreadID(), 1L);
-                    } else {
-                        codeOfRequestAnswer.put(
-                            now.getLongThreadID(),
-                            codeOfRequestAnswer.get(now.getLongThreadID()) + 1
-                        );
-                    }
-                    if (resources.containsKey(now.getResourceBundleName())) {
-                        resources.put(now.getResourceBundleName(), 1L);
-                    } else {
-                        resources.put(now.getResourceBundleName(), resources.get(now.getResourceBundleName()) + 1);
-                    }
-                    result.add(now);
-                    sumOfAnswersSizes+=now.getResourceBundle().
-                }
             }
         }
     }
