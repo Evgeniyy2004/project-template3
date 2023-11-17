@@ -29,7 +29,6 @@ public class LogAnalyst {
     public Stream<LogRecord> ngixStats() throws IOException {
         Scanner terminalInput = new Scanner(System.in);
         List<LogRecord> result = new Vector<>();
-        HashMap<LogRecord, String> howToPrint = new HashMap<>();
         HashMap<String, Long> resources = new HashMap<>();
         HashMap<Long, Long> codeOfRequestAnswer = new HashMap<>();
         for (int i = 0; i < 1; i++) {
@@ -41,6 +40,7 @@ public class LogAnalyst {
             var to = Arrays.stream(all).filter(r -> r.startsWith("to")).findFirst();
             var from = Arrays.stream(all).filter(r -> r.startsWith("from")).findFirst();
             var format = Arrays.stream(all).filter(r -> r.startsWith("format")).findFirst();
+            long sumOfAnswersSizes = 0;
             way = way.replace("path", "");
             String [] currInfo = new String[0];
             try {
@@ -54,7 +54,7 @@ public class LogAnalyst {
             } finally {
                 for (int k = 0; k < currInfo.length; k++) {
                     var now = new LogRecord(Level.ALL, currInfo[i]);
-                    if (format.isEmpty()) {
+                    /*if (format.isEmpty()) {
                         howToPrint.put(now, "adoc");
                     } else {
                         if (String.valueOf(format).contains("adoc")) {
@@ -62,7 +62,7 @@ public class LogAnalyst {
                         } else {
                             howToPrint.put(now, "markdown");
                         }
-                    }
+                    }*/
                     if (codeOfRequestAnswer.containsKey(now.getLongThreadID())) {
                         codeOfRequestAnswer.put(now.getLongThreadID(), 1L);
                     } else {
@@ -77,6 +77,7 @@ public class LogAnalyst {
                         resources.put(now.getResourceBundleName(), resources.get(now.getResourceBundleName()) + 1);
                     }
                     result.add(now);
+                    sumOfAnswersSizes+=now.getResourceBundle().
                 }
             }
         }
