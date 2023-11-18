@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import net.steppschuh.markdowngenerator.table.Table;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asciidoctor.Asciidoctor;
 
 public class LogAnalyst {
 
@@ -154,7 +155,8 @@ public class LogAnalyst {
                         lastBuilder.addRow(sorted1.get(j).getKey(),sorted1.get(j).getValue());
                     }
                 } else {
-
+                    Asciidoctor doctor = Asciidoctor.Factory.create();
+                    doctor.
                 }
             }
         }
