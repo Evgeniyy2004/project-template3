@@ -46,4 +46,17 @@ public class LogTest {
             fail();
         }
     }
+
+    @Test
+    @DisplayName("Программа может работать с ссылкой на несколько файлов")
+    void workWithGlobs() {
+        String one = "java -jar nginx-log-stats.jar --path C:\\Users\\user\\Documents\\logi* --from 2023-08-31 --format adoc";
+        try {
+            LogAnalyst.ngixStats(one);
+            var now = Files.readAllBytes(new File("result.adoc").toPath());
+            System.out.println(new String(now, "UTF-8"));
+        } catch (IOException | ParseException e) {
+            fail();
+        }
+    }
 }

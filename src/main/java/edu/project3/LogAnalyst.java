@@ -20,19 +20,20 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.steppschuh.markdowngenerator.table.Table;
 
 public class LogAnalyst {
 
-    private static final String LOG_ENTRY_PATTERN =
-        "^(.*) - - \\[([\\w:/]+\\s[+\\-]\\d{4})\\] (\\S+)\"(.+?)\" (\\d{3}) (\\S+) (\\d+)(\\S+)\"(.*?)\"(\\S+)\"(.*?)\"$";
-    private static final String FOR_REQUEST = "^[A-Z]+( +)(\\w)( +)(.*)$";
-    //private final static Logger LOGGER = LogManager.getLogger();
-    private static final Pattern pattern = Pattern.compile(LOG_ENTRY_PATTERN);
-    private static final Pattern newPattern = Pattern.compile(FOR_REQUEST);
+    private LogAnalyst() {
+    }
 
+    private static final String LOG_ENTRY_PATTERN =
+        "^(.*) - - \\[([\\w:/]+\\s[+\\-]\\d{4})\\] (\\S+)\"(.+?)\" "
+            + "(\\d{3}) (\\S+) (\\d+)(\\S+)\"(.*?)\"(\\S+)\"(.*?)\"$";
+    private static final String FOR_REQUEST = "^[A-Z]+( +)(\\w)( +)(.*)$";
+
+
+    @SuppressWarnings("RegexpSinglelineJava")
     public static void ngixStats(String curr) throws IOException, ParseException {
         HashMap<String, Long> resources = new HashMap<>();
         HashMap<Integer, Long> codeOfRequestAnswer = new HashMap<>();
@@ -79,8 +80,10 @@ public class LogAnalyst {
                 var sorted1 = codeOfRequestAnswer.entrySet().stream().sorted((f1, f2) -> Math.toIntExact(
                     f2.getValue() - f1.getValue())).toList();
                 //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                var start = (from.isEmpty()) ? "-" : LocalDate.parse(from.get().replace("from", "").replace(" ","")).toString();
-                var end = (to.isEmpty()) ? "-" : LocalDate.parse(to.get().replace("to", "").replace(" ","")).toString();
+                var start = (from.isEmpty()) ? "-" :
+                    LocalDate.parse(from.get().replace("from", "").replace(" ", "")).toString();
+                var end =
+                    (to.isEmpty()) ? "-" : LocalDate.parse(to.get().replace("to", "").replace(" ", "")).toString();
                 if (format.isEmpty() || format.get().contains("markdown")) {
                     Table.Builder builder = new Table.Builder()
                         .withAlignments(Table.ALIGN_CENTER, Table.ALIGN_RIGHT)
@@ -184,13 +187,16 @@ public class LogAnalyst {
 
                 var startdir = getStartDir(way);
                 List<String> matchesList = new ArrayList<String>();
-                String finalWay = way.replace(" ","");
+                String finalWay = way.replace(" ", "");
                 FileVisitor<Path> matcherVisitor = new SimpleFileVisitor<Path>() {
                     @Override
                     public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
                         var fs = Paths.get(startdir).getFileSystem();
-                        PathMatcher matcher = fs.getPathMatcher("glob:"+finalWay);
+                        PathMatcher matcher = fs.getPathMatcher("glob:" + finalWay.replace("\\","/"));
                         Path name = file.toAbsolutePath();
+                        if (file.toString().equals("C:\\Users\\user\\Documents\\logi\\logi2.txt.txt")){
+                            file = file;
+                        }
                         if (matcher.matches(name)) {
                             matchesList.add(name.toString());
                         }
@@ -203,24 +209,23 @@ public class LogAnalyst {
                         return FileVisitResult.CONTINUE;
                     }
                 };
-                var path = Paths.get(new File(startdir).toURI());
                 Files.walkFileTree(Paths.get(startdir), matcherVisitor);
                 for (String p : matchesList) {
                     var current = new File(p).toPath().toAbsolutePath();
                     var currInfo = new String(Files.readAllBytes(current), StandardCharsets.UTF_8).split("\n");
                     for (int k = 0; k < currInfo.length; k++) {
-                        var no = currInfo[k].split("\"");
-                        String requestLine = no[1];
-                        String statusCode = no[2].split(" ")[0];
-                        String bytes = no[2].split(" ")[1];
-                        Matcher newMatcher = newPattern.matcher(requestLine);
-                        String resource = newMatcher.group(3).replace(" ", "");
+                        var no = Arrays.stream(currInfo[k].split("\"")).filter(r -> !Objects.equals(r, "")).toArray();
+                        String requestLine = (String) no[1];
+                        var cool = Arrays.stream(((String) no[2]).split(" ")).filter(r -> !Objects.equals(r, "")).toArray();
+                        String statusCode = (String) cool[0];
+                        String bytes = (String) cool[1];
+                        String resource = (String) Arrays.stream(requestLine.split(" ")).filter(r -> r != "").toArray()[1];
                         if (resources.containsKey(resource)) {
                             resources.put(resource, resources.get(resource) + 1);
                         } else {
                             resources.put(resource, 1L);
                         }
-                        sumOfAnswersSizes += Integer.parseInt(bytes);
+                        sumOfAnswersSizes += Long.parseLong(bytes);
                         var code = Integer.parseInt(statusCode);
                         if (codeOfRequestAnswer.containsKey(code)) {
                             codeOfRequestAnswer.put(code, codeOfRequestAnswer.get(code) + 1);
@@ -235,8 +240,10 @@ public class LogAnalyst {
                     f2.getValue() - f1.getValue())).toList();
                 var sorted1 = codeOfRequestAnswer.entrySet().stream().sorted((f1, f2) -> Math.toIntExact(
                     f2.getValue() - f1.getValue())).toList();
-                var start = (from.isEmpty()) ? "-" : LocalDate.parse(from.get().replace("from", "").replace(" ","")).toString();
-                var end = (to.isEmpty()) ? "-" : LocalDate.parse(to.get().replace("to", "").replace(" ","")).toString();
+                var start = (from.isEmpty()) ? "-"
+                    : LocalDate.parse(from.get().replace("from", "").replace(" ", "")).toString();
+                var end =
+                    (to.isEmpty()) ? "-" : LocalDate.parse(to.get().replace("to", "").replace(" ", "")).toString();
                 if (format.isEmpty() || format.get().contains("markdown")) {
                     Table.Builder builder = new Table.Builder()
                         .withAlignments(Table.ALIGN_CENTER, Table.ALIGN_RIGHT)
@@ -250,14 +257,14 @@ public class LogAnalyst {
                     Table.Builder builder1 = new Table.Builder()
                         .withAlignments(Table.ALIGN_CENTER, Table.ALIGN_CENTER)
                         .addRow("Ресурс", "Количество");
-                    for (int j = 0; j < 3 && j < sortedResources.size(); j++) {
+                    for (int j = 0; j < (2 + 1) && j < sortedResources.size(); j++) {
                         builder1.addRow(sortedResources.get(j).getKey(), sortedResources.get(j).getValue());
                     }
 
                     Table.Builder lastBuilder = new Table.Builder()
                         .withAlignments(Table.ALIGN_CENTER, Table.ALIGN_CENTER)
                         .addRow("Код", "Количество");
-                    for (int j = 0; j < 3 && j < sorted1.size(); j++) {
+                    for (int j = 0; j < (2 + 1) && j < sorted1.size(); j++) {
                         lastBuilder.addRow(sorted1.get(j).getKey(), sorted1.get(j).getValue());
                     }
                     System.out.println(builder.build());
@@ -292,7 +299,7 @@ public class LogAnalyst {
                     result1.append("|" + "Ресурс\n");
                     result1.append("|" + "Количество" + "\n");
                     result1.append("\n");
-                    for (int j = 0; j < 3 && j < sortedResources.size(); j++) {
+                    for (int j = 0; j < (2 + 1) && j < sortedResources.size(); j++) {
                         if (j != 2 && j != sortedResources.size() - 1) {
                             result1.append("|" + sortedResources.get(j).getKey() + "\n");
                             result1.append("|" + sortedResources.get(j).getValue() + "\n");
@@ -310,7 +317,7 @@ public class LogAnalyst {
                     result2.append("|" + "Код\n");
                     result2.append("|" + "Количество" + "\n");
                     result2.append("\n");
-                    for (int j = 0; j < 3 && j < sorted1.size(); j++) {
+                    for (int j = 0; j < (2 + 1) && j < sorted1.size(); j++) {
                         if (j != 2 && j != sorted1.size() - 1) {
                             result2.append("|" + sorted1.get(j).getKey() + "\n");
                             result2.append("|" + sorted1.get(j).getValue() + "\n");
@@ -341,8 +348,9 @@ public class LogAnalyst {
 
     private static String getStartDir(String path) throws IOException {
         int firstAsteriskIndex = path.indexOf("*");
-        int lastSlashIndex = (firstAsteriskIndex != -1) ? path.lastIndexOf("\\", firstAsteriskIndex) : path.lastIndexOf("\\");
-        return path.substring(0, lastSlashIndex).replace(" ","");
+        int lastSlashIndex =
+            (firstAsteriskIndex != -1) ? path.lastIndexOf("\\", firstAsteriskIndex) : path.lastIndexOf("\\");
+        return path.substring(0, lastSlashIndex).replace(" ", "");
 
     }
 }
