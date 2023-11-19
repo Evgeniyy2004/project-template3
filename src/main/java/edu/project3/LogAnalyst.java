@@ -33,7 +33,7 @@ public class LogAnalyst {
     private static final String FOR_REQUEST = "^[A-Z]+( +)(\\w)( +)(.*)$";
 
 
-    @SuppressWarnings("RegexpSinglelineJava")
+    @SuppressWarnings({"CyclomaticComplexity","RegexpSinglelineJava"})
     public static void ngixStats(String curr) throws IOException, ParseException {
         HashMap<String, Long> resources = new HashMap<>();
         HashMap<Integer, Long> codeOfRequestAnswer = new HashMap<>();
@@ -79,9 +79,8 @@ public class LogAnalyst {
                     f2.getValue() - f1.getValue())).toList();
                 var sorted1 = codeOfRequestAnswer.entrySet().stream().sorted((f1, f2) -> Math.toIntExact(
                     f2.getValue() - f1.getValue())).toList();
-                //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                var start = (from.isEmpty()) ? "-" :
-                    LocalDate.parse(from.get().replace("from", "").replace(" ", "")).toString();
+                var start = (from.isEmpty()) ? "-"
+                    : LocalDate.parse(from.get().replace("from", "").replace(" ", "")).toString();
                 var end =
                     (to.isEmpty()) ? "-" : LocalDate.parse(to.get().replace("to", "").replace(" ", "")).toString();
                 if (format.isEmpty() || format.get().contains("markdown")) {
@@ -194,9 +193,9 @@ public class LogAnalyst {
                         var fs = Paths.get(startdir).getFileSystem();
                         PathMatcher matcher = fs.getPathMatcher("glob:" + finalWay.replace("\\","/"));
                         Path name = file.toAbsolutePath();
-                        if (file.toString().equals("C:\\Users\\user\\Documents\\logi\\logi2.txt.txt")){
+                        /*if (file.toString().equals("C:\\Users\\user\\Documents\\logi\\logi2.txt.txt")){
                             file = file;
-                        }
+                        }*/
                         if (matcher.matches(name)) {
                             matchesList.add(name.toString());
                         }
@@ -219,7 +218,7 @@ public class LogAnalyst {
                         var cool = Arrays.stream(((String) no[2]).split(" ")).filter(r -> !Objects.equals(r, "")).toArray();
                         String statusCode = (String) cool[0];
                         String bytes = (String) cool[1];
-                        String resource = (String) Arrays.stream(requestLine.split(" ")).filter(r -> r != "").toArray()[1];
+                        String resource = (String) Arrays.stream(requestLine.split(" ")).filter(r -> !Objects.equals(r, "")).toArray()[1];
                         if (resources.containsKey(resource)) {
                             resources.put(resource, resources.get(resource) + 1);
                         } else {
