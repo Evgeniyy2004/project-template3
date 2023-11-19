@@ -1,7 +1,7 @@
 [cols = 2]
 |===
 |Файл(-ы)
-| Users\user\Documents\logi\logi2.txt.txt 
+| C:\Users\user\Documents\logi\logi2.txt.txt 
 
 |Начальная дата
 |2023-08-31
@@ -21,9 +21,11 @@
 |Ресурс
 |Количество
 
+|===
 
 [cols = 2]
 |===
 |Код
 |Количество
 
+|===

@@ -3,12 +3,8 @@ package edu.project3;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.FileVisitor;
 import java.nio.file.Files;
@@ -148,9 +144,10 @@ public class LogAnalyst {
                         } else {
                             result1.append("|" + sortedResources.get(j).getKey() + "\n");
                             result1.append("|" + sortedResources.get(j).getValue() + "\n");
-                            result1.append("|===\n");
+
                         }
                     }
+                    result1.append("|===\n");
 
                     StringBuilder result2 = new StringBuilder();
                     result2.append("[cols = 2]\n");
@@ -166,9 +163,10 @@ public class LogAnalyst {
                         } else {
                             result2.append("|" + sorted1.get(j).getKey() + "\n");
                             result2.append("|" + sorted1.get(j).getValue() + "\n");
-                            result2.append("|===\n");
+
                         }
                     }
+                    result2.append("|===\n");
                     var file = new File("result.adoc");
                     if (file.createNewFile()) {
                         var writer = new FileOutputStream("result.adoc");
@@ -190,24 +188,13 @@ public class LogAnalyst {
                 FileVisitor<Path> matcherVisitor = new SimpleFileVisitor<Path>() {
                     @Override
                     public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
-                        FileSystem fs = null;
-                        try {
-                            fs = FileSystems.getFileSystem(new URI(startdir));
-                        } catch (URISyntaxException ex) {
-                            throw new RuntimeException(ex);
-                        }
-                        PathMatcher matcher = fs.getPathMatcher(finalWay);
-                        Path name = Paths.get(file.getFileName().toString());
+                        var fs = Paths.get(startdir).getFileSystem();
+                        PathMatcher matcher = fs.getPathMatcher("glob:"+finalWay);
+                        Path name = file.toAbsolutePath();
                         if (matcher.matches(name)) {
                             matchesList.add(name.toString());
                         }
                         return FileVisitResult.CONTINUE;
-                    }
-
-                    @Override
-                    public FileVisitResult preVisitDirectory( final Path dir, final BasicFileAttributes attrs ) throws IOException {
-                        if ( dir.equals(Paths.get(new File(startdir).toURI())) ) return FileVisitResult.CONTINUE;
-                        return FileVisitResult.SKIP_SUBTREE; //or CONTINUE for recursive processing
                     }
 
                     @Override
@@ -313,9 +300,9 @@ public class LogAnalyst {
                         } else {
                             result1.append("|" + sortedResources.get(j).getKey() + "\n");
                             result1.append("|" + sortedResources.get(j).getValue() + "\n");
-                            result1.append("|===\n");
                         }
                     }
+                    result1.append("|===\n");
 
                     StringBuilder result2 = new StringBuilder();
                     result2.append("[cols = 2]\n");
@@ -331,9 +318,10 @@ public class LogAnalyst {
                         } else {
                             result2.append("|" + sorted1.get(j).getKey() + "\n");
                             result2.append("|" + sorted1.get(j).getValue() + "\n");
-                            result2.append("|===\n");
+
                         }
                     }
+                    result2.append("|===\n");
                     var file = new File("result.adoc");
                     if (file.createNewFile()) {
                         var writer = new FileOutputStream("result.adoc");
