@@ -7,14 +7,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class Test1 {
     @Test
     @DisplayName("Работа с аргументом - пустой строкой")
-    void nullTest() {
+    void emptyStrTest() {
         // given
         String firstTest = "";
         // then
         int a = Task1.minutesToSeconds(firstTest);
         assertThat(a).isEqualTo(-1);
-
-
     }
 
     @Test
