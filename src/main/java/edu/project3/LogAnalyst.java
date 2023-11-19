@@ -3,6 +3,8 @@ package edu.project3;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
@@ -12,12 +14,16 @@ import java.nio.file.FileVisitor;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
+import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.steppschuh.markdowngenerator.table.Table;
@@ -54,15 +60,15 @@ public class LogAnalyst {
                     var no = Arrays.stream(currInfo[k].split("\"")).filter(r -> !Objects.equals(r, "")).toArray();
                     String requestLine = (String) no[1];
                     var cool = Arrays.stream(((String) no[2]).split(" ")).filter(r -> !Objects.equals(r, "")).toArray();
-                    String statusCode = (String)cool[0];
-                    String bytes = (String)cool[1];
-                    String resource = (String)Arrays.stream(requestLine.split(" ")).filter(r->r!="").toArray()[1];
+                    String statusCode = (String) cool[0];
+                    String bytes = (String) cool[1];
+                    String resource = (String) Arrays.stream(requestLine.split(" ")).filter(r -> r != "").toArray()[1];
                     if (resources.containsKey(resource)) {
                         resources.put(resource, resources.get(resource) + 1);
                     } else {
                         resources.put(resource, 1L);
                     }
-                    sumOfAnswersSizes += Integer.parseInt(bytes);
+                    sumOfAnswersSizes += Long.parseLong(bytes);
                     var code = Integer.parseInt(statusCode);
                     if (codeOfRequestAnswer.containsKey(code)) {
                         codeOfRequestAnswer.put(code, codeOfRequestAnswer.get(code) + 1);
@@ -76,9 +82,9 @@ public class LogAnalyst {
                     f2.getValue() - f1.getValue())).toList();
                 var sorted1 = codeOfRequestAnswer.entrySet().stream().sorted((f1, f2) -> Math.toIntExact(
                     f2.getValue() - f1.getValue())).toList();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                var start = (from.isEmpty()) ? "-" : dateFormat.parse(from.get().replace("from","")).toString();
-                var end = (to.isEmpty()) ? "-" : dateFormat.parse(to.get().replace("to","")).toString();
+                //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                var start = (from.isEmpty()) ? "-" : LocalDate.parse(from.get().replace("from", "").replace(" ","")).toString();
+                var end = (to.isEmpty()) ? "-" : LocalDate.parse(to.get().replace("to", "").replace(" ","")).toString();
                 if (format.isEmpty() || format.get().contains("markdown")) {
                     Table.Builder builder = new Table.Builder()
                         .withAlignments(Table.ALIGN_CENTER, Table.ALIGN_RIGHT)
@@ -180,20 +186,38 @@ public class LogAnalyst {
 
                 var startdir = getStartDir(way);
                 List<String> matchesList = new ArrayList<String>();
-                String finalWay = way;
+                String finalWay = way.replace(" ","");
                 FileVisitor<Path> matcherVisitor = new SimpleFileVisitor<Path>() {
                     @Override
                     public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) throws IOException {
-                        FileSystem fs = FileSystems.getDefault();
+                        FileSystem fs = null;
+                        try {
+                            fs = FileSystems.getFileSystem(new URI(startdir));
+                        } catch (URISyntaxException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         PathMatcher matcher = fs.getPathMatcher(finalWay);
-                        Path name = file.getFileName();
+                        Path name = Paths.get(file.getFileName().toString());
                         if (matcher.matches(name)) {
                             matchesList.add(name.toString());
                         }
                         return FileVisitResult.CONTINUE;
                     }
+
+                    @Override
+                    public FileVisitResult preVisitDirectory( final Path dir, final BasicFileAttributes attrs ) throws IOException {
+                        if ( dir.equals(Paths.get(new File(startdir).toURI())) ) return FileVisitResult.CONTINUE;
+                        return FileVisitResult.SKIP_SUBTREE; //or CONTINUE for recursive processing
+                    }
+
+                    @Override
+                    public FileVisitResult visitFileFailed(Path file, IOException exp) {
+                        // System.out.println(file);
+                        return FileVisitResult.CONTINUE;
+                    }
                 };
-                Files.walkFileTree(new File(startdir).toPath().toAbsolutePath(), matcherVisitor);
+                var path = Paths.get(new File(startdir).toURI());
+                Files.walkFileTree(Paths.get(startdir), matcherVisitor);
                 for (String p : matchesList) {
                     var current = new File(p).toPath().toAbsolutePath();
                     var currInfo = new String(Files.readAllBytes(current), StandardCharsets.UTF_8).split("\n");
@@ -224,9 +248,8 @@ public class LogAnalyst {
                     f2.getValue() - f1.getValue())).toList();
                 var sorted1 = codeOfRequestAnswer.entrySet().stream().sorted((f1, f2) -> Math.toIntExact(
                     f2.getValue() - f1.getValue())).toList();
-                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                var start = (from.isEmpty()) ? "-" : dateFormat.parse(from.get()).toString();
-                var end = (to.isEmpty()) ? "-" : dateFormat.parse(to.get()).toString();
+                var start = (from.isEmpty()) ? "-" : LocalDate.parse(from.get().replace("from", "").replace(" ","")).toString();
+                var end = (to.isEmpty()) ? "-" : LocalDate.parse(to.get().replace("to", "").replace(" ","")).toString();
                 if (format.isEmpty() || format.get().contains("markdown")) {
                     Table.Builder builder = new Table.Builder()
                         .withAlignments(Table.ALIGN_CENTER, Table.ALIGN_RIGHT)
@@ -330,8 +353,8 @@ public class LogAnalyst {
 
     private static String getStartDir(String path) throws IOException {
         int firstAsteriskIndex = path.indexOf("*");
-        int lastSlashIndex = path.lastIndexOf("/", firstAsteriskIndex);
-        return path.substring(0, lastSlashIndex);
+        int lastSlashIndex = (firstAsteriskIndex != -1) ? path.lastIndexOf("\\", firstAsteriskIndex) : path.lastIndexOf("\\");
+        return path.substring(0, lastSlashIndex).replace(" ","");
 
     }
 }
