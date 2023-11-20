@@ -1,8 +1,8 @@
 package edu.hw2;
 
 public class Square  extends Rectangle implements Shape {
-    double width;
-    double height;
+    private double width;
+    private double height;
 
     @Override
     public void setParams(double a, double b) {

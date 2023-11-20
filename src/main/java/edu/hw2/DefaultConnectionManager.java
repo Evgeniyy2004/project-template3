@@ -2,7 +2,7 @@ package edu.hw2;
 
 public class DefaultConnectionManager implements ConnectionManager {
 
-    boolean fault = true;
+    private boolean fault = true;
 
     @Override
     public Connection getConnection() {
