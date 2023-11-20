@@ -5,7 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public final class EvenArrayUtils {
-    private final static Logger LOGGER = LogManager.getLogger();
+    private  static final Logger LOGGER = LogManager.getLogger();
 
     private EvenArrayUtils() {
     }
@@ -19,7 +19,7 @@ public final class EvenArrayUtils {
      */
     public static int[] filter(int[] numbers) {
         Objects.requireNonNull(numbers);
-        LOGGER.trace("Filtering an array {}", numbers);
+        LOGGER.info("Filtering an array {}", numbers);
 
         int count = count(numbers);
 
