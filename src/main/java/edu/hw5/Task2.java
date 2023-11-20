@@ -6,14 +6,15 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class Task2 {
 
     private Task2() {
     }
 
-    public static ArrayList<Date> allFridays13th(int year) {
-        ArrayList<Date> result = new ArrayList<>();
+    public static List<Date> allFridays13th(int year) {
+        List<Date> result = new ArrayList<>();
         if (year < 0) {
             throw new IllegalArgumentException();
         }

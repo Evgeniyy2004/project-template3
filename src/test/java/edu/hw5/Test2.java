@@ -1,14 +1,12 @@
 package edu.hw5;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import static edu.hw5.Task2.allFridays13th;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class Test2 {
@@ -45,14 +43,12 @@ public class Test2 {
             var one = allFridays13th(-1).toArray();
             fail("Год должен быть положительным");
         } catch (IllegalArgumentException e) {
-            assertTrue(true);
         }
 
         try {
             var one = Task2.next(-1,1 , 1);
             fail("Год должен быть положительным");
         } catch (IllegalArgumentException e) {
-            assertTrue(true);
         }
     }
 
