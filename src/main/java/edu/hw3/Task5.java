@@ -2,26 +2,19 @@ package edu.hw3;
 
 import java.util.Arrays;
 import java.util.List;
-import org.jetbrains.annotations.NotNull;
-
 
 
 public class Task5 {
 
     private Task5() {
-
     }
 
-    public static Contact[] parseContacts(String[] allNames, @NotNull String descendingOrNo) {
+    public static Contact[] parseContacts(String[] allNames, DescendingAscending descendingOrNo) {
             if (allNames == null || allNames.length == 0) {
                 return new Contact[0];
             }
-            var descendingValue = "desc";
-            if (!descendingOrNo.equalsIgnoreCase("asc") && !descendingOrNo.equalsIgnoreCase(descendingValue)) {
-                throw new IllegalArgumentException();
-            }
             List<String> curr  = Arrays.stream(allNames).sorted(new ContactsComparer()).toList();
-            if (descendingOrNo.equalsIgnoreCase(descendingValue)) {
+            if (descendingOrNo == DescendingAscending.DESCENDING) {
                 curr = curr.reversed();
             }
             return  curr.stream().map(Contact::new).toArray(size -> new Contact[size]);
