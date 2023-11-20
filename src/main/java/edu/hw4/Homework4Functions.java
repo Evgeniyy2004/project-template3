@@ -143,22 +143,21 @@ public class Homework4Functions {
         }).toList();
     }
 
-    public static Boolean spidersVersusDogs(@NotNull Animal[] all) {
-        if (Arrays.stream(all).filter(animal -> animal.type() == Animal.Type.DOG).count() == 0) {
+    public static Boolean spidersVersusDogs(@NotNull Animal[] allAnimals) {
+        if (Arrays.stream(allAnimals).filter(animal -> animal.type() == Animal.Type.DOG).count() == 0) {
             return false;
         }
-        if (Arrays.stream(all).filter(animal -> animal.type() == Animal.Type.SPIDER).count() == 0) {
+        if (Arrays.stream(allAnimals).filter(animal -> animal.type() == Animal.Type.SPIDER).count() == 0) {
             return false;
         }
-        var newall = Stream.of(all);
-        var stream = Stream.of(all);
-        //var stream = Arrays.stream(all);
-        var first = Arrays.stream(all).filter(animal -> animal.type() == Animal.Type.SPIDER && animal.bites());
-        var second = Arrays.stream(all).filter(animal -> animal.type() == Animal.Type.DOG && animal.bites());
+        var newAll = Stream.of(allAnimals);
+        var stream = Stream.of(allAnimals);
+        var first = Arrays.stream(allAnimals).filter(animal -> animal.type() == Animal.Type.SPIDER && animal.bites());
+        var second = Arrays.stream(allAnimals).filter(animal -> animal.type() == Animal.Type.DOG && animal.bites());
         var forSpiders = first.count();
         var forDogs = second.count();
         var spidersResult = (double) forSpiders / stream.filter(animal -> animal.type() == Animal.Type.SPIDER).count();
-        var dogsResult = (double) forDogs / newall.filter(animal -> animal.type() == Animal.Type.DOG).count();
+        var dogsResult = (double) forDogs / newAll.filter(animal -> animal.type() == Animal.Type.DOG).count();
         return  spidersResult > dogsResult;
     }
 
