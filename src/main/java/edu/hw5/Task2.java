@@ -13,7 +13,7 @@ public class Task2 {
     private Task2() {
     }
 
-    public static  List<Date> allFridays13th(int year) {
+    public static List<Date> allFridays13th(int year) {
         List<Date> result = new ArrayList<>();
         if (year < 0) {
             throw new IllegalArgumentException();
