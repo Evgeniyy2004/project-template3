@@ -1,12 +1,9 @@
 package edu.project1;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 class Session {
 
-    private final static Logger LOGGER = LogManager.getLogger();
     private final String answer;
     private final char[] userAnswer;
     private final int maxAttempts;
@@ -29,7 +26,7 @@ class Session {
             }
             return new GuessResult.SuccessfulGuess(result, attempts, maxAttempts, "Hit!");
         } else {
-            attempts += 1;
+            attempts++;
             return new GuessResult.FailedGuess(userAnswer, attempts, maxAttempts);
         }
     }

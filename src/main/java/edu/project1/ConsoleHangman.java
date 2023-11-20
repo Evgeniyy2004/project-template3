@@ -1,13 +1,11 @@
 package edu.project1;
 
 import java.util.Scanner;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+public class ConsoleHangman {
 
-class ConsoleHangman {
-
-    private final static Logger LOGGER = LogManager.getLogger();
     private final static Scanner SCANNER = new Scanner(System.in);
     private final int limitation;
     private final String word;
@@ -37,11 +35,11 @@ class ConsoleHangman {
             if (isfinished) {
                 break;
             }
-            LOGGER.info("Guess a letter:");
+            log.info("Guess a letter:");
             String key = SCANNER.nextLine();
             if (key.toLowerCase().equals("give up")) {
-                LOGGER.info("The word: " + word);
-                LOGGER.info(lostString);
+                log.info("The word: " + word);
+                log.info(lostString);
                 return;
             }
             if (key.length() != 1) {
@@ -60,9 +58,9 @@ class ConsoleHangman {
         }
 
         if (isfinished) {
-            LOGGER.info("You won!");
+            log.info("You won!");
         } else {
-            LOGGER.info(lostString);
+            log.info(lostString);
         }
     }
 
@@ -71,8 +69,8 @@ class ConsoleHangman {
     }
 
     private void printState(GuessResult guess) {
-        LOGGER.info(guess.message());
-        LOGGER.info("");
-        LOGGER.info(new String(guess.state()));
+        log.info(guess.message());
+        log.info("");
+        log.info(new String(guess.state()));
     }
 }
