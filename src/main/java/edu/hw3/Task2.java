@@ -28,7 +28,6 @@ public class Task2 {
                 curr = new StringBuilder();
             }
         }
-
         return result.toArray(new String[result.size()]);
     }
 }
