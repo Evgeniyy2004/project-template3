@@ -95,6 +95,11 @@
             <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>education</groupId>
+            <artifactId>essentials</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
