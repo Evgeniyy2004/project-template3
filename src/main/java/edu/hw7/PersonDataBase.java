@@ -8,6 +8,7 @@ public class PersonDataBase {
 
     private List<Person> all = new Vector<>();
     public synchronized void add(Person person) {
+
         all.add(person);
     }
     public synchronized void delete(int id) {
