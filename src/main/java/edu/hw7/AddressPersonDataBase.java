@@ -9,10 +9,11 @@ public class AddressPersonDataBase {
     public synchronized void add(Person person) {
         all.put(person.phoneNumber(), person);
     }
-    public synchronized void delete(@NotNull String address) {
-        all.remove(address);
+    public synchronized Person delete(@NotNull String address) {
+        if (all.containsKey(address)) return all.remove(address);
+        else return null;
     }
-    public synchronized Person findByAddress(@NotNull String address) {
+    public synchronized Person findBy(@NotNull String address) {
         if (all.containsKey(address)) return all.get(address);
         return null;
     }

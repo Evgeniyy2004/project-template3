@@ -8,10 +8,11 @@ public class IdPersonDataBase {
     public synchronized void add(Person person) {
         all.put(person.id(), person);
     }
-    public synchronized void delete(int id) {
-        if (all.containsKey(id)) all.remove(id);
+    public synchronized Person delete(int id) {
+        if (all.containsKey(id)) return all.remove(id);
+        else return null;
     }
-    public synchronized Person findById(int id) {
+    public synchronized Person findBy(int id) {
         if (all.containsKey(id)) return all.get(id);
         return null;
     }
