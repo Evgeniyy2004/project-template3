@@ -23,20 +23,18 @@ public class Task4 {
 
     public static double countByThreads(int N) {
         var processors = Runtime.getRuntime().availableProcessors();
-        AtomicInteger totalCount = new AtomicInteger(0);
+        int totalCount = 0;
         AtomicInteger circleCount = new AtomicInteger(0);
         ExecutorService executor = Executors.newFixedThreadPool(processors);
-        while (totalCount.get() < N) {
+        while (totalCount < N) {
+            totalCount++;
             executor.submit(() -> {
                 var curr = ThreadLocalRandom.current().doubles(2, -1, 1 + 1e-6).toArray();
                 var d = Math.sqrt(curr[0] * curr[0] + curr[1] * curr[1]);
-                if (totalCount.get() < N) {
-                    if (d <= 1) circleCount.addAndGet(1);
-                    totalCount.addAndGet(1);
-                }
+                if (d <= 1) circleCount.addAndGet(1);
             });
         }
         executor.shutdown();
-        return 4*(((double) circleCount.get())/((double) totalCount.get()));
+        return 4*(((double) circleCount.get())/((double) N));
     }
 }
