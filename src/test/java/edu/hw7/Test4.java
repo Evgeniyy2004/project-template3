@@ -36,7 +36,6 @@ public class Test4 {
         var result1 = countByOne(argument);
         var result2 = countByOne(argument);
 
-
         //Assert
         var expected = 3.17942;
         assertThat(Math.abs(result1 - expected)).isLessThan(1e-1);
@@ -48,7 +47,7 @@ public class Test4 {
     @DisplayName("Многопоточная версия должна работать быстрее однопоточной")
     void faster() {
         //Arrange
-        var number = new Random().nextInt(10000,100000);
+        var number = new Random().nextInt(10000, 100000);
 
         //Act
         long startTime = System.nanoTime();
