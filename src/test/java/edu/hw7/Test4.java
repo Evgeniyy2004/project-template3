@@ -60,6 +60,7 @@ public class Test4 {
         long endTime1 = System.nanoTime();
         var duration1 = endTime1 - startTime1;
 
+
         //Assert
         assertThat(duration1).isLessThan(duration);
     }
