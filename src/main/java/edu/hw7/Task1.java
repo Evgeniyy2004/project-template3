@@ -17,6 +17,7 @@ public class Task1 {
             thread.start();
         }
         while (value.get() != numberOfThreads) {
+
         }
         return value.get();
     }

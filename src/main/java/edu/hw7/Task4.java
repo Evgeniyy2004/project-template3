@@ -1,12 +1,13 @@
 package edu.hw7;
 
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("RegexpSingleline")
 public class Task4 {
+    private static int circleCount = 0;
+    private static int totalCount = 0;
     public static double countByOne(int N) {
         if (N <= 0) {
             throw new IllegalArgumentException();
@@ -25,6 +26,8 @@ public class Task4 {
     }
 
     public static double countByThreads(int N) {
+        circleCount = 0;
+        totalCount = 0;
         if (N <= 0) {
             throw new IllegalArgumentException();
         }
@@ -35,28 +38,29 @@ public class Task4 {
         var oneThreadDuration = (endTime - startTime);
 
         long startTime1 = System.nanoTime();
-        int totalCount = 0;
-        AtomicInteger circleCount = new AtomicInteger(0);
-        ExecutorService executor = Executors.newFixedThreadPool(processors*8);
-        while (totalCount < N) {
-            totalCount++;
-            executor.submit(() -> {
-                var curr = new Random().nextDouble(-1, 1 + 1e-6);
-                var curr1 = new Random().nextDouble(-1, 1 + 1e-6);
+        Runnable task = (() -> {
+            for (int i = 0; i < Math.min(N - totalCount, N/processors); i++) {
+                totalCount++;
+                var curr = ThreadLocalRandom.current().nextDouble(-1, 1 + 1e-6);
+                var curr1 = ThreadLocalRandom.current().nextDouble(-1, 1 + 1e-6);
                 var d = Math.sqrt(curr * curr + curr1 * curr1);
                 if (d <= 1) {
-                    circleCount.addAndGet(1);
+                    circleCount++;
                 }
-            });
+            }
+        });
+        try (var executor = Executors.newCachedThreadPool()) {
+            while (totalCount < N) {
+                executor.execute(task);
+            }
         }
-        executor.shutdown();
         long endTime1 = System.nanoTime();
         var multiThreadDuration = (endTime1 - startTime1);
 
         System.out.printf("Выполнение однопоточным методом:  %d ms%n", oneThreadDuration);
         System.out.printf("Выполнение многопоточным методом: %d ms%n", multiThreadDuration);
 
-        System.out.printf("Погрешность: %f %n", Math.abs(4 * (((double) circleCount.get()) / ((double) N)) - Math.PI));
-        return 4 * (((double) circleCount.get()) / ((double) N));
+        System.out.printf("Погрешность: %f %n", Math.abs(4 * (((double) circleCount) / ((double) N)) - Math.PI));
+        return 4 * (((double) circleCount) / ((double) N));
     }
 }
