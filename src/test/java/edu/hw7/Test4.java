@@ -45,7 +45,7 @@ public class Test4 {
 
     @Test
     @DisplayName("Многопоточная версия должна работать быстрее однопоточной")
-    void faster() {
+    void faster() throws InterruptedException {
         //Arrange
         var number = new Random().nextInt(10000, 100000);
 

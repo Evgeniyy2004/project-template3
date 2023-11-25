@@ -1,12 +1,15 @@
 package edu.hw7;
 
 import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("RegexpSingleline")
 public class Task4 {
     private static int circleCount = 0;
+    private static final int PROCESSORS = Runtime.getRuntime().availableProcessors();
     private static int totalCount = 0;
     public static double countByOne(int N) {
         if (N <= 0) {
@@ -31,28 +34,31 @@ public class Task4 {
         if (N <= 0) {
             throw new IllegalArgumentException();
         }
-        var processors = Runtime.getRuntime().availableProcessors();
         long startTime = System.nanoTime();
         countByOne(N);
         long endTime = System.nanoTime();
         var oneThreadDuration = (endTime - startTime);
 
         long startTime1 = System.nanoTime();
-        Runnable task = (() -> {
-            for (int i = 0; i < Math.min(N - totalCount, N/processors); i++) {
-                totalCount++;
+        Callable task = (() -> {
+            var circles = 0;
+            for (int i = 0; i < Math.min(N - totalCount, N/PROCESSORS); i++) {
                 var curr = ThreadLocalRandom.current().nextDouble(-1, 1 + 1e-6);
                 var curr1 = ThreadLocalRandom.current().nextDouble(-1, 1 + 1e-6);
                 var d = Math.sqrt(curr * curr + curr1 * curr1);
                 if (d <= 1) {
-                    circleCount++;
+                    circles++;
                 }
             }
+            return circles;
         });
-        try (var executor = Executors.newCachedThreadPool()) {
+        try (var executor = Executors.newFixedThreadPool(PROCESSORS)) {
             while (totalCount < N) {
-                executor.execute(task);
+                circleCount+=(int)executor.submit(task).get();
+                totalCount+=Math.min(N - totalCount, N/PROCESSORS);
             }
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
         }
         long endTime1 = System.nanoTime();
         var multiThreadDuration = (endTime1 - startTime1);
