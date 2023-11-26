@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class Test3 {
 
     @Test
-    @DisplayName("Человек появляется в поиске тогда, когда его адрес, телефон и имя не равны null, т.е когда она содержится во всех словарях")
+    @DisplayName("Человек появляется в поиске тогда, когда его адрес, телефон и имя не равны null, т.е когда он содержится во всех словарях")
     void checkWhere() {
         //Arrange
         var base = new Task3();
