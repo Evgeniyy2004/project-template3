@@ -33,6 +33,7 @@ public class Test3 {
         assertThat(res4).isEmpty();
     }
 
+
     @Test
     @DisplayName("ReadWriteLock позволяет избежать одновременной работы пишущих и читающих потоков и также связанных с этим исключений")
     void multiThread() {
