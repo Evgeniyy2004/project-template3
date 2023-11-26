@@ -22,19 +22,28 @@ public class Task3 {
             if (!phoneBase.containsKey(person.phoneNumber())) {
                 phoneBase.put(person.phoneNumber(), new Vector<>());
             }
-            phoneBase.get(person.phoneNumber()).add(person);
+            var filtered = new java.util.ArrayList<>(phoneBase.get(person.phoneNumber()).stream()
+                .filter(r -> r.id() != person.id()).toList());
+            filtered.add(person);
+            phoneBase.put(person.phoneNumber(), filtered);
         }
         if (person.address() != null) {
             if (!addressBase.containsKey(person.address())) {
                 addressBase.put(person.address(), new Vector<>());
             }
-            addressBase.get(person.address()).add(person);
+            var filtered = new java.util.ArrayList<>(addressBase.get(person.address()).stream()
+                .filter(r -> r.id() != person.id()).toList());
+            filtered.add(person);
+            addressBase.put(person.phoneNumber(), filtered);
         }
         if (person.name() != null) {
             if (!nameBase.containsKey(person.name())) {
                 nameBase.put(person.name(), new Vector<>());
             }
-            nameBase.get(person.name()).add(person);
+            var filtered = new java.util.ArrayList<>(nameBase.get(person.name()).stream()
+                .filter(r -> r.id() != person.id()).toList());
+            filtered.add(person);
+            nameBase.put(person.phoneNumber(), filtered);
         }
         lock.writeLock().unlock();
     }
@@ -48,20 +57,29 @@ public class Task3 {
         idBase.remove(id);
         if (person.phoneNumber() != null) {
             try (var newValue = phoneBase.get(person.phoneNumber()).stream().filter(r -> r.id() != person.id())) {
-                if (newValue.count() == 0) phoneBase.remove(person.phoneNumber());
-                else phoneBase.put(person.phoneNumber(), newValue.toList());
+                if (newValue.count() == 0) {
+                    phoneBase.remove(person.phoneNumber());
+                } else {
+                    phoneBase.put(person.phoneNumber(), newValue.toList());
+                }
             }
         }
         if (person.address() != null) {
             try (var newValue = addressBase.get(person.address()).stream().filter(r -> r.id() != person.id())) {
-                if (newValue.count() == 0) addressBase.remove(person.address());
-                else addressBase.put(person.address(), newValue.toList());
+                if (newValue.findAny().isEmpty()) {
+                    addressBase.remove(person.address());
+                } else {
+                    addressBase.put(person.address(), newValue.toList());
+                }
             }
         }
         if (person.name() != null) {
             try (var newValue = nameBase.get(person.name()).stream().filter(r -> r.id() != person.id())) {
-                if (newValue.count() == 0) nameBase.remove(person.address());
-                else nameBase.put(person.name(), newValue.toList());
+                if (newValue.count() == 0) {
+                    nameBase.remove(person.address());
+                } else {
+                    nameBase.put(person.name(), newValue.toList());
+                }
             }
         }
         lock.writeLock().unlock();

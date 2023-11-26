@@ -24,4 +24,20 @@ public class Test3 {
         assertThat(res1).isEmpty();
         assertThat(res2).contains(two);
     }
+
+    @Test
+    @DisplayName("ReadWriteLock позволяет избежать одновременной работы пишущих и читающих потоков и также связанных с этим исключений")
+    void multiThread() {
+        //Arrange
+        var one = new Person(123,null,"spb","9900");
+        var base = new Task3();
+
+        //Act
+        for (int h = 0; h < 10000; h++) {
+            new Thread(()->base.add(one)).start();
+            new Thread(()->base.delete(123)).start();
+            new Thread(()->base.findByAddress("spb")).start();
+        }
+
+    }
 }

@@ -6,18 +6,22 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
-@SuppressWarnings("RegexpSingleline")
 public class Task4 {
     private static final int PROCESSORS = Runtime.getRuntime().availableProcessors();
     private static int totalCount = 0;
 
-    public static double countByOne(int N) {
-        if (N <= 0) {
+    private static final double ACCURACY = 1e-6;
+
+    private Task4() {
+    }
+
+    public static double countByOne(int n) {
+        if (n <= 0) {
             throw new IllegalArgumentException();
         }
-        int totalCount = 0;
+        totalCount = 0;
         int circleCount = 0;
-        for (int u = 0; u < N; u++) {
+        for (int u = 0; u < n; u++) {
             totalCount++;
             double rngx = new Random().nextDouble() * 2 - 1;
             double rngy = new Random().nextDouble() * 2 - 1;
@@ -25,13 +29,13 @@ public class Task4 {
                 circleCount++;
             }
         }
-        return 4 * (((double) circleCount) / ((double) totalCount));
+        return 2 * 2 * (((double) circleCount) / ((double) totalCount));
     }
 
-    public static double countByThreads(int N) {
+    public static double countByThreads(int n) {
         int circleCount = 0;
         totalCount = 0;
-        if (N <= 0) {
+        if (n <= 0) {
             throw new IllegalArgumentException();
         }
         /*long startTime = System.nanoTime();
@@ -42,9 +46,9 @@ public class Task4 {
         /*long startTime1 = System.nanoTime();*/
         Callable task = (() -> {
             var circles = 0;
-            for (int i = 0; i < Math.min(N - totalCount, N / PROCESSORS); i++) {
-                var curr = ThreadLocalRandom.current().nextDouble(-1, 1 + 1e-6);
-                var curr1 = ThreadLocalRandom.current().nextDouble(-1, 1 + 1e-6);
+            for (int i = 0; i < Math.min(n - totalCount, n / PROCESSORS); i++) {
+                var curr = ThreadLocalRandom.current().nextDouble(-1, 1 + ACCURACY);
+                var curr1 = ThreadLocalRandom.current().nextDouble(-1, 1 + ACCURACY);
                 var d = Math.sqrt(curr * curr + curr1 * curr1);
                 if (d <= 1) {
                     circles++;
@@ -53,20 +57,13 @@ public class Task4 {
             return circles;
         });
         try (var executor = Executors.newFixedThreadPool(PROCESSORS)) {
-            while (totalCount < N) {
+            while (totalCount < n) {
                 circleCount += (int) executor.submit(task).get();
-                totalCount += Math.min(N - totalCount, N / PROCESSORS);
+                totalCount += Math.min(n - totalCount, n / PROCESSORS);
             }
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        /*long endTime1 = System.nanoTime();
-        var multiThreadDuration = (endTime1 - startTime1);*/
-
-        /*     System.out.printf("Выполнение однопоточным методом:  %d ms%n", oneThreadDuration);*/
-       /* System.out.printf("Выполнение многопоточным методом: %d ms%n", multiThreadDuration);
-
-        System.out.printf("Погрешность: %f %n", Math.abs(4 * (((double) circleCount) / ((double) N)) - Math.PI));*/
-        return 4 * (((double) circleCount) / ((double) N));
+        return 2 * 2 * (((double) circleCount) / ((double) n));
     }
 }

@@ -94,11 +94,11 @@
             <artifactId>assertj-core</artifactId>
             <version>${assertj.version}</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>education</groupId>
             <artifactId>essentials</artifactId>
             <version>1.0.0</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <build>
