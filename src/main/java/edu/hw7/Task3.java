@@ -34,7 +34,7 @@ public class Task3 {
             var filtered = new java.util.ArrayList<>(addressBase.get(person.address()).stream()
                 .filter(r -> r.id() != person.id()).toList());
             filtered.add(person);
-            addressBase.put(person.phoneNumber(), filtered);
+            addressBase.put(person.address(), filtered);
         }
         if (person.name() != null) {
             if (!nameBase.containsKey(person.name())) {
@@ -43,7 +43,7 @@ public class Task3 {
             var filtered = new java.util.ArrayList<>(nameBase.get(person.name()).stream()
                 .filter(r -> r.id() != person.id()).toList());
             filtered.add(person);
-            nameBase.put(person.phoneNumber(), filtered);
+            nameBase.put(person.name(), filtered);
         }
         lock.writeLock().unlock();
     }

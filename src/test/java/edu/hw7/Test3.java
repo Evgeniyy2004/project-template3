@@ -13,16 +13,24 @@ public class Test3 {
         var base = new Task3();
         var one = new Person(123,null,"spb","9900");
         var two = new Person(3,"vasya","moskow","9900");
+        var three = new Person(9,"leha",null,"9900");
+        var four = new Person(32,"sasha","ekb",null);
 
         //Act
         base.add(one);
         base.add(two);
+        base.add(three);
+        base.add(four);
         var res1 = base.findByAddress("spb");
         var res2 = base.findByName("vasya");
+        var res3 = base.findByPhone("9990");
+        var res4 = base.findByName("sasha");
 
         //Assert
         assertThat(res1).isEmpty();
         assertThat(res2).contains(two);
+        assertThat(res3).isEmpty();
+        assertThat(res4).isEmpty();
     }
 
     @Test
