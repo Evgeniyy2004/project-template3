@@ -47,21 +47,25 @@ public class Test4 {
     @DisplayName("Многопоточная версия должна работать быстрее однопоточной")
     void faster() throws InterruptedException {
         //Arrange
-        var number = new Random().nextInt(10000, 100000);
+        var number = new Random().nextInt(10000, 100000000);
 
         //Act
         long startTime = System.nanoTime();
-        countByOne(number);
+        var one = countByOne(number);
         long endTime = System.nanoTime();
         var duration = endTime - startTime;
 
         long startTime1 = System.nanoTime();
-        countByThreads(number);
+        var second = countByThreads(number);
         long endTime1 = System.nanoTime();
         var duration1 = endTime1 - startTime1;
 
 
         //Assert
+        System.out.println(one);
+        System.out.println(second);
+        System.out.println(" Однопоточно: "+duration);
+        System.out.println("Многопоточно: "+duration1);
         assertThat(duration1).isLessThan(duration);
     }
 
