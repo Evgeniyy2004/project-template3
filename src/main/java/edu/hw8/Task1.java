@@ -1,14 +1,10 @@
 package edu.hw8;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
-
 public class Task1{
 
     ServerSocket server = new ServerSocket();
@@ -25,31 +21,32 @@ public class Task1{
     }
 
     public void run(String who) throws IOException {
-        var socket = new Socket(who, server.getLocalPort());
-        PrintWriter out = new PrintWriter(
+       /* var socket = new Socket("localhost",server.getLocalPort());*/
+        /*PrintWriter out = new PrintWriter(
             socket.getOutputStream(), true);
 
         // reading from server
         BufferedReader in
-            = new BufferedReader(new InputStreamReader(
-            socket.getInputStream()));
+            = new BufferedReader(new InputStreamReader( System.in));*/
 
         // object of scanner class
         Scanner sc = new Scanner(System.in);
-        String line = null;
-
+        var curr = sc.nextLine();
+        /*String line = null;
+        System.out.println("ff");
         while (!"exit".equalsIgnoreCase(line)) {
 
             // reading from user
-            line = sc.nextLine();
-
+            //line = in.readLine();
+            sc.next();*/
             // sending the user input to server
-            out.println(line);
+            /*out.println(line);
             out.flush();
 
             // displaying server reply
             System.out.println("Server replied "
                 + in.readLine());
         }
+        server.close();*/
     }
 }
