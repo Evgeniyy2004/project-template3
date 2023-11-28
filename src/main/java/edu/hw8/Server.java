@@ -3,52 +3,34 @@ package edu.hw8;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server {
-    public static void run() {
-        ServerSocket server = null;
 
+    public static void run() {
         try {
-            server = new ServerSocket(49001);
+            var server = new ServerSocket(49001);
             server.setReuseAddress(true);
             //var pool = Executors.newFixedThreadPool(5);
             // running infinite loop for getting
             // client request
-            for(int y = 0; y <5 ; y++) {
+            var services = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+            services.execute(() -> {
+                    Socket client = null;
+                    try {
+                        client = server.accept();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    ClientHandler clientSock
+                        = new ClientHandler(client);
 
-                // socket object to receive incoming client
-                // requests
-                Socket client = server.accept();
-
-                // Displaying that new client is connected
-                // to server
-                System.out.println("New client connected"
-                    + client.getInetAddress()
-                    .getHostName());
-
-                // create a new thread object
-                ClientHandler clientSock
-                    = new ClientHandler(client);
-
-                // This thread will handle the client
-                // separately
-                new Thread(clientSock).start();
-            }
-        }
-        catch (IOException e) {
+                    new Thread(clientSock).start();
+                }
+            );
+            server.close();
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
-            if (server != null) {
-                try {
-                    server.close();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 }

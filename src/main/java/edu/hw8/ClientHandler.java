@@ -3,12 +3,9 @@ package edu.hw8;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Map;
-import java.util.Objects;
-
 import static java.util.Map.entry;
 
 public class ClientHandler implements Runnable {
@@ -72,44 +69,4 @@ public class ClientHandler implements Runnable {
             }
         }
     }
-
-    /*public void run(String who) {
-        PrintWriter out = null;
-        BufferedReader in = null;
-        try {
-            // get the outputstream of client
-            out = new PrintWriter(
-                System.out, true);
-
-            // get the inputstream of client
-            in = new BufferedReader(
-                new InputStreamReader(
-                    clientSocket.getInputStream()));
-
-            String line;
-            while (!Objects.equals(line = in.readLine(), "exit")) {
-                // writing the received message from
-                // client
-                var answer =
-                    (PHRASES.get(line) == null) ? "Переубедить вас мне удастся, поэтому сразу перейду к оскорблениям."
-                        : PHRASES.get(line);
-                System.out.printf(who + ":", line);
-                out.println(answer);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-                if (in != null) {
-                    in.close();
-                    clientSocket.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
 }
