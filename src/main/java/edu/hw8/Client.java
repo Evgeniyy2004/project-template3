@@ -49,14 +49,10 @@ public class Client{
         }
     }
 
-    public void run(String who) throws IOException {
-
-    }
-
-    public void answer(String who, Scanner in) {
+    /*public void answer(String who, Scanner in) {
         System.out.print(who+":");
         var c = in.nextLine().replace("\n","");
         var res = (PHRASES.get(c) == null) ? "Лучше проигнорировать" : PHRASES.get(c);
         System.out.println("Сервер:"+res);
-    }
+    }*/
 }
