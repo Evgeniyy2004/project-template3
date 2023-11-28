@@ -3,19 +3,20 @@ package edu.hw8;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
     public static void run() {
         ServerSocket server = null;
 
         try {
-            // server is listening on port 1234
             server = new ServerSocket(49001);
             server.setReuseAddress(true);
-
+            //var pool = Executors.newFixedThreadPool(5);
             // running infinite loop for getting
             // client request
-            while (true) {
+            for(int y = 0; y <5 ; y++) {
 
                 // socket object to receive incoming client
                 // requests
@@ -25,7 +26,7 @@ public class Server {
                 // to server
                 System.out.println("New client connected"
                     + client.getInetAddress()
-                    .getHostAddress());
+                    .getHostName());
 
                 // create a new thread object
                 ClientHandler clientSock
