@@ -17,7 +17,7 @@ public class Server {
             // running infinite loop for getting
             // client request
             //Selector sel = Selector.open();
-            var services = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+            var services = Executors.newFixedThreadPool(2);
             while (true) {
                 services.execute(() -> {
                         try {
