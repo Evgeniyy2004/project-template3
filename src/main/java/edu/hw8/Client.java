@@ -4,13 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ConnectException;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.channels.Selector;
-import java.util.Map;
 import java.util.Scanner;
-import static java.util.Map.entry;
 
 public class Client{
 
@@ -41,10 +36,4 @@ public class Client{
         }
     }
 
-    /*public void answer(String who, Scanner in) {
-        System.out.print(who+":");
-        var c = in.nextLine().replace("\n","");
-        var res = (PHRASES.get(c) == null) ? "Лучше проигнорировать" : PHRASES.get(c);
-        System.out.println("Сервер:"+res);
-    }*/
 }

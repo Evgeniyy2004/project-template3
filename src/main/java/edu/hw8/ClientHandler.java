@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Map;
+import java.util.Objects;
+
 import static java.util.Map.entry;
 
 public class ClientHandler implements Runnable {
@@ -43,7 +45,7 @@ public class ClientHandler implements Runnable {
                    System.in));
 
             String line;
-            while ((line = in.readLine()) != "exit") {
+            while (!Objects.equals(line = in.readLine(), "exit")) {
                 // writing the received message from
                 // client
                 System.out.println(clientSocket.getInetAddress().getHostName() + ":" + line);
@@ -51,6 +53,7 @@ public class ClientHandler implements Runnable {
                 var answer =
                     (PHRASES.get(line) == null) ? "Переубедить вас мне удастся, поэтому сразу перейду к оскорблениям."
                         : PHRASES.get(line);
+                if (Objects.equals(line, "exit")) break;
                 out.println(answer);
             }
         } catch (IOException e) {
