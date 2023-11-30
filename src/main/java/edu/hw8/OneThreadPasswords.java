@@ -4,8 +4,14 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class OneThreadPasswords {
+
+    private OneThreadPasswords() {
+    }
+
     public static HashMap<String, String> hacker(HashMap<String, String> users) {
         HashMap<String, String> result = new HashMap<>();
             for (char c = 'a'; c <= 'z'; c++) {
@@ -36,10 +42,7 @@ public class OneThreadPasswords {
     public static void perm(HashMap<String, String> all, String curr, HashMap<String, String> put) {
         try {
             hasPassword(all, curr, put);
-            if (all.size() == put.size()) {
-                return;
-            }
-            if (curr.length() > 4) {
+            if (all.size() == put.size() || curr.length() > 2 * 2) {
                 return;
             }
             for (char c = 'a'; c <= 'z'; c++) {
@@ -52,7 +55,7 @@ public class OneThreadPasswords {
                 perm(all, curr + c, put);
             }
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+            log.info(e.getMessage(), e);
         }
     }
 }

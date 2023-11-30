@@ -7,12 +7,13 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Map;
 import java.util.Objects;
-
+import lombok.extern.slf4j.Slf4j;
 import static java.util.Map.entry;
 
+@Slf4j
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
-
+    private static final String EXIT = "exit";
     private static final Map<String, String> PHRASES = Map.ofEntries(
         entry("личности", "Не переходи на личности там, где их нет"),
         entry(
@@ -42,22 +43,25 @@ public class ClientHandler implements Runnable {
             // get the inputstream of client
             in = new BufferedReader(
                 new InputStreamReader(
-                   System.in));
+                    System.in));
 
-            String line;
-            while (!Objects.equals(line = in.readLine(), "exit")) {
+            String line = "";
+            while (!Objects.equals(line, EXIT)) {
                 // writing the received message from
                 // client
-                System.out.println(clientSocket.getInetAddress().getHostName() + ":" + line);
+                log.info(clientSocket.getInetAddress().getHostName() + ":" + line);
                 //out.println(line);
                 var answer =
                     (PHRASES.get(line) == null) ? "Переубедить вас мне удастся, поэтому сразу перейду к оскорблениям."
                         : PHRASES.get(line);
-                if (Objects.equals(line, "exit")) break;
+                if (Objects.equals(line, EXIT)) {
+                    break;
+                }
                 out.println(answer);
+                line = in.readLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info(e.getMessage(), e);
         } finally {
             try {
                 if (out != null) {
@@ -68,7 +72,7 @@ public class ClientHandler implements Runnable {
                     clientSocket.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.info(e.getMessage(), e);
             }
         }
     }

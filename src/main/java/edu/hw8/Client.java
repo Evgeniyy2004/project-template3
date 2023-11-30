@@ -6,12 +6,19 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import lombok.extern.slf4j.Slf4j;
 
-public class Client{
+@Slf4j
+public class Client {
 
+    private Client() {
+
+    }
+
+    private static final int PORT = 49001;
 
     public static void main() throws IOException {
-        try (var socket = new Socket("localhost",49001)) {
+        try (var socket = new Socket("localhost", PORT)) {
             PrintWriter out = new PrintWriter(
                 socket.getOutputStream(), true);
             //reading from server
@@ -24,12 +31,12 @@ public class Client{
 
                 // reading from user
                 line = sc.nextLine();
-                 //sending the user input to server
+                //sending the user input to server
                 out.println(line);
                 out.flush();
 
                 // displaying server reply
-                System.out.println("Server replied "
+                log.info("Server replied "
                     + in.readLine());
             }
             sc.close();

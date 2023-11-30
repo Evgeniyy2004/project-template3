@@ -7,13 +7,22 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class Brute {
-    public static void brute(HashMap<String,String> toadd, int size, String currstr)
+
+    private Brute() {
+    }
+
+    private static final int LEFTLIMIT = 97;
+    private static final int RIGHTLIMIT = 122;
+
+    public static void brute(HashMap<String, String> toadd, int size, String currstr)
         throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        if (toadd.size() == size || currstr.length() > 4) return;
+        if (toadd.size() == size || currstr.length() > 2 * 2) {
+            return;
+        }
         if (!currstr.isEmpty()) {
-            int leftLimit = 97; // letter 'a'
-            int rightLimit = 122; // letter 'z'
-            int targetStringLength = 15;
+            int leftLimit = LEFTLIMIT; // letter 'a'
+            int rightLimit = RIGHTLIMIT; // letter 'z'
+            int targetStringLength = (2 * 2 * 2 * 2) - 1;
             Random random = new Random();
             String generatedString = random.ints(leftLimit, rightLimit + 1)
                 .limit(targetStringLength)
@@ -25,13 +34,13 @@ public class Brute {
             toadd.put(theMD5digest, generatedString);
         }
         for (char c = 'a'; c <= 'z'; c++) {
-            brute(toadd, size,currstr + c);
+            brute(toadd, size, currstr + c);
         }
         for (char c = 'A'; c <= 'Z'; c++) {
-            brute(toadd, size,currstr + c);
+            brute(toadd, size, currstr + c);
         }
         for (char c = '0'; c <= '9'; c++) {
-            brute(toadd, size,currstr + c);
+            brute(toadd, size, currstr + c);
         }
     }
 }

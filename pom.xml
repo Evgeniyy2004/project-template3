@@ -112,11 +112,11 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.26</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>education</groupId>
             <artifactId>essentials</artifactId>
             <version>1.0.0</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

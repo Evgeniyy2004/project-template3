@@ -4,14 +4,17 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.Executors;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Server {
 
-    public static ServerSocket SERVER = null;
+    public static ServerSocket server = null;
+    private static final int PORT = 49001;
+
     public void run() {
         try {
-            var server = new ServerSocket(49001);
-            SERVER = server;
+            server = new ServerSocket(PORT);
             server.setReuseAddress(true);
             //var pool = Executors.newFixedThreadPool(5);
             // running infinite loop for getting
@@ -34,7 +37,7 @@ public class Server {
 
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info(e.getMessage(), e);
         }
     }
 

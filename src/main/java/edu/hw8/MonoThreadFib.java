@@ -4,6 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class MonoThreadFib {
+
+    private MonoThreadFib() {
+    }
+
     public static int count(int n) {
             if (n == 0) {
                 log.info("Нулевое число Фибоначчи равно 0");

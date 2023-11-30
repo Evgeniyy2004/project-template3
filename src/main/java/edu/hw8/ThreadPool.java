@@ -1,6 +1,6 @@
 package edu.hw8;
 
-public interface ThreadPool  extends AutoCloseable{
+public interface ThreadPool extends AutoCloseable {
 
     //void start();
     void execute(Runnable runnable) throws InterruptedException;

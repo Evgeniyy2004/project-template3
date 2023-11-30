@@ -5,25 +5,28 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Task3 {
 
-
+    private Task3() {
+    }
 
     public static HashMap<String, String> multiThreadHacker(HashMap<String, String> users) {
         HashMap<String, String> result = new HashMap<>();
         try (var all = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())) {
             for (char c = 'a'; c <= 'z'; c++) {
                 char finalC = c;
-                all.execute(()->perm(users, "" + finalC, result));
+                all.execute(() -> perm(users, "" + finalC, result));
             }
             for (char c = 'A'; c <= 'Z'; c++) {
                 char finalC = c;
-                all.execute(()->perm(users, "" + finalC, result));
+                all.execute(() -> perm(users, "" + finalC, result));
             }
             for (char c = '0'; c <= '9'; c++) {
                 char finalC = c;
-                all.execute(()->perm(users, "" + finalC, result));
+                all.execute(() -> perm(users, "" + finalC, result));
             }
         }
         return result;
@@ -33,7 +36,7 @@ public class Task3 {
         throws UnsupportedEncodingException, NoSuchAlgorithmException {
         byte[] bytesOfMessage = curr.getBytes("UTF-8");
         MessageDigest md = MessageDigest.getInstance("MD5");
-        var theMD5digest =new String(md.digest(bytesOfMessage));
+        var theMD5digest = new String(md.digest(bytesOfMessage));
         if (all.get(theMD5digest) != null) {
             var name = all.get(theMD5digest);
             put.put(curr, name);
@@ -43,10 +46,7 @@ public class Task3 {
 
     public static void perm(HashMap<String, String> all, String curr, HashMap<String, String> put) {
         try {
-            if (all.size() == put.size()) {
-                return;
-            }
-            if (curr.length() > 4) {
+            if (all.size() == put.size() || curr.length() > 2 * 2) {
                 return;
             }
             hasPassword(all, curr, put);
@@ -60,7 +60,7 @@ public class Task3 {
                 perm(all, curr + c, put);
             }
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+            log.info(e.getMessage(), e);
         }
     }
 }
