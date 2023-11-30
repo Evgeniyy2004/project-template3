@@ -2,10 +2,12 @@ package edu.hw8;
 
 public class PoolRealisation implements ThreadPool {
 
-    volatile Thread[] all = new Thread[0];
+    Thread[] all = new Thread[0];
 
     public void create(int threads) {
+
         all = new Thread[threads];
+        for (int j =0; j < threads; j++) all[j] = new Thread();
     }
 
     @Override
@@ -14,14 +16,10 @@ public class PoolRealisation implements ThreadPool {
             if (i == all.length) {
                 i = 0;
             }
-            if (all[i] == null) {
+            if (!all[i].isAlive()) {
                 all[i] = new Thread(runnable);
-                try {
-                    all[i].join();
-                    all[i] = null;
-                    break;
-                } catch (InterruptedException e) {
-                }
+                all[i].run();
+                break;
             }
         }
 
