@@ -29,5 +29,8 @@ public class Test3 {
         log.info("Однопоточно:"+(dur1));
         log.info("Многопоточно:"+(dur));
         assertThat(dur).isLessThanOrEqualTo(dur1);
+        for (var c : res.keySet()) {
+            log.info(String.format("Пользователь: %s, Пароль: %s", res.get(c),c));
+        }
     }
 }

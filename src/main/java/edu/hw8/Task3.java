@@ -35,7 +35,7 @@ public class Task3 {
         MessageDigest md = MessageDigest.getInstance("MD5");
         var theMD5digest =new String(md.digest(bytesOfMessage));
         if (all.get(theMD5digest) != null) {
-            var name = all.get(curr);
+            var name = all.get(theMD5digest);
             put.put(curr, name);
         }
 
