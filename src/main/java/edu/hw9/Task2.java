@@ -1,10 +1,12 @@
 package edu.hw9;
-import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
+import java.nio.file.Files;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
@@ -36,8 +38,6 @@ public class Task2 extends Thread {
         } else {
             try {
                 while (true) {
-
-
                     f = nodesToReview.take();
                     reviewFileSystem(f);
                 }
@@ -52,26 +52,31 @@ public class Task2 extends Thread {
         if (f == null) {
             return;
         }
-        if (f.isFile()) {
-
-            //завершение обхода (+дополнительная логика)
-            //System.out.println("Файл " + f.getName() + " найден потоком " + Thread.currentThread());
+        if (!f.isDirectory()) {
             return;
         }
+
         File[] files = f.listFiles();
+        if (Files.isReadable(f.toPath()) ||
+            Files.isWritable(f.toPath())) {
+            if (files.length > 10) {
 
-        if (files.length > 1000) {
-
-            for (int i = 0; i < files.length - 1; i++) {
-
-                nodesToReview.add(files[i]); //добавление файлов всех кроме последнего
+                log.info(String.format(
+                    "Директория %s найдена потоком %s, количество файлов - %d",
+                    f,
+                    Thread.currentThread(),
+                    files.length
+                ));
+                //последний дочерний узел используется для перехода дальше
             }
-            log.info( String.format("Директория %s найдена потоком %s",f,Thread.currentThread()));
-            //последний дочерний узел используется для перехода дальше
+            if (files.length > 0) {
+                for (int i = 0; i < files.length - 1; i++) {
 
-            File last = files[files.length - 1];
-            reviewFileSystem(last);
-
+                    nodesToReview.add(files[i]); //добавление файлов всех кроме последнего
+                }
+                File last = files[files.length - 1];
+                reviewFileSystem(last);
+            }
         }
 
     }

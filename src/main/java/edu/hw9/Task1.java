@@ -1,10 +1,10 @@
 package edu.hw9;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.DoubleStream;
@@ -19,8 +19,8 @@ public class Task1 {
     }
 
 
-    public static HashMap<String,Vector<Double>> collect() {
-        HashMap<String,Vector<Double>> result = new HashMap<>();
+    public static ConcurrentHashMap<String,Vector<Double>> collect() {
+        ConcurrentHashMap<String,Vector<Double>> result = new ConcurrentHashMap<>();
         CompletableFuture[] tasks = new CompletableFuture[all.size()];
         for(int u = 0; u < all.size(); u++) {
             int finalU = u;

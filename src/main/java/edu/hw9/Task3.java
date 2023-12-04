@@ -50,7 +50,7 @@ public class Task3 extends  Thread {
                 while (true) {
                     var now = nodesToReview.take();
                     if ( !now.isEmpty() && !visited.contains(now.getLast())) {
-                        reviewFileSystem(now.getLast().x, now.getLast().y, now);
+                        addPoints(now.getLast().x, now.getLast().y, now);
                     }
                 }
             } catch (InterruptedException e) {
@@ -58,16 +58,12 @@ public class Task3 extends  Thread {
             }
     }
 
-    void reviewFileSystem(int x, int y, LinkedList<Point> currway) {
+    void addPoints(int x, int y, LinkedList<Point> currway) {
         if (x==endx && y == endy) {
             finalWay = currway;
-            //завершение обхода (+дополнительная логика)
-            //System.out.println("Файл " + f.getName() + " найден потоком " + Thread.currentThread());
             return;
         }
-        //File[] files = f.listFiles();
 
-        //if (files.length > 1000) {
         Vector<Point> all = new Vector<>();
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j<=1; j++) {
@@ -78,7 +74,7 @@ public class Task3 extends  Thread {
                     if (visited.contains(new Point(x+i, y+j))) continue;
                     all.add(new Point(x+i, y+j));
                     visited.add(new Point(x+i, y+j));
-                    //добавление файлов всех кроме последнего
+
                 }
             }
         if (all.isEmpty()) return;
@@ -87,13 +83,7 @@ public class Task3 extends  Thread {
             t.add(all.get(s));
             nodesToReview.add(t);
         }
-            //log.info( String.format("Директория %s найдена потоком %s",f,Thread.currentThread()));
-            //последний дочерний узел используется для перехода дальше
-
-            //File last = files[files.length - 1];
-            //reviewFileSystem(last);
-
-        //}
-
+        currway.add(all.getLast());
+        addPoints(all.getLast().x, all.getLast().y, currway);
     }
 }
