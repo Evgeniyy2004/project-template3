@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.DoubleStream;
@@ -14,16 +15,16 @@ public class Task1 {
     //private static final ExecutorService SERVICE = Executors.newVirtualThreadPerTaskExecutor();
     private static final ExecutorService POOL = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     public static void stats(String metric , double[] results) {
-
             all.add(Map.entry(metric,results));
     }
 
 
     public static HashMap<String,Vector<Double>> collect() {
         HashMap<String,Vector<Double>> result = new HashMap<>();
+        Vector<CompletableFuture> tasks = new Vector<>();
         for(int u = 0; u < all.size(); u++) {
             int finalU = u;
-            POOL.execute(()->{
+             tasks.add(CompletableFuture.runAsync(()->{
                 var now = DoubleStream.of(all.get(finalU).getValue());
                 now.close();
                 now = DoubleStream.of(all.get(finalU).getValue());
@@ -41,8 +42,9 @@ public class Task1 {
                 if (min.isPresent()) res.add(min.getAsDouble());
                 res.add(average);
                 result.put(all.get(finalU).getKey(),res);
-            });
+            }, POOL));
         }
+        CompletableFuture.allOf(tasks).join();
         return result;
     }
 }
