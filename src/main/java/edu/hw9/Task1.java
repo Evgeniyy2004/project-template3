@@ -21,10 +21,10 @@ public class Task1 {
 
     public static HashMap<String,Vector<Double>> collect() {
         HashMap<String,Vector<Double>> result = new HashMap<>();
-        Vector<CompletableFuture> tasks = new Vector<>();
+        CompletableFuture[] tasks = new CompletableFuture[all.size()];
         for(int u = 0; u < all.size(); u++) {
             int finalU = u;
-             tasks.add(CompletableFuture.runAsync(()->{
+             tasks[u]=(CompletableFuture.runAsync(()->{
                 var now = DoubleStream.of(all.get(finalU).getValue());
                 now.close();
                 now = DoubleStream.of(all.get(finalU).getValue());
