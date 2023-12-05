@@ -8,11 +8,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
 public class Task2 extends Thread {
 
     private static BlockingQueue<File> nodesToReview = new LinkedBlockingDeque<>();
+
+    private static final int NUMBER = 10;
     private File f;
 
     public Task2(File f) {
@@ -24,9 +25,9 @@ public class Task2 extends Thread {
 
     public static void go() {
         Executor ex = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        Task2 mw =  new Task2(new File("C:\\"));
+        Task2 mw = new Task2(new File("C:\\"));
         mw.run();
-        for (int i = 0;i<Runtime.getRuntime().availableProcessors();i++) {
+        for (int i = 0; i < Runtime.getRuntime().availableProcessors(); i++) {
             ex.execute(new Task2());
         }
     }
@@ -42,24 +43,20 @@ public class Task2 extends Thread {
                     reviewFileSystem(f);
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+               log.info(e.toString());
             }
 
         }
     }
 
     void reviewFileSystem(File f) {
-        if (f == null) {
+        if (f == null || !f.isDirectory()) {
             return;
         }
-        if (!f.isDirectory()) {
-            return;
-        }
-
         File[] files = f.listFiles();
-        if (Files.isReadable(f.toPath()) ||
-            Files.isWritable(f.toPath())) {
-            if (files.length > 10) {
+        if (Files.isReadable(f.toPath())
+            || Files.isWritable(f.toPath())) {
+            if (files.length > NUMBER) {
 
                 log.info(String.format(
                     "Директория %s найдена потоком %s, количество файлов - %d",
