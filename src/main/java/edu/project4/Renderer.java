@@ -25,18 +25,19 @@ public class Renderer {
     FractalImage render(FractalImage canvas, Rect world, List<List<double>> variations, int samples, short iterPerSample, long seed)
         {
         for (int num = 0; num < samples; ++num) {
-            var currx = ThreadLocalRandom.current().nextInt((int) world.x(), (int) (world.x()+world.width()));
-            var curry = ThreadLocalRandom.current().nextInt((int)world.y(),(int)(world.y()+world.height()));
-            Point2D pw = new Point2D.Double(currx, curry);
+            var currx = ThreadLocalRandom.current().nextDouble(world.x(), (world.x()+world.width())+1e-6);
+            var curry = ThreadLocalRandom.current().nextDouble(world.y(),(world.y()+world.height())+1e-6);
+            //Point2D pw = new Point2D.Double(currx, curry);
 
             for (short step = 0; step < iterPerSample; ++step) {
                 var variation = variations.get(ThreadLocalRandom.current().nextInt(variations.size()));
-                var x =
+                var x =variation.get(0)*currx+variation.get(1)*curry+variation.get(2);
+                var y=variation.get(3)*currx+variation.get(4)*curry+variation.get(5);
 
                 double theta2 = 0.0;
                 for (int s = 0; s < symmetry; theta2 += Math.PI * 2 / symmetry, ++s) {
-                    var t = new AffineTransform(AffineTransform.getRotateInstance(theta2, 0,0));
-                    var pwr = new Point2D.Double();
+                    //var t = new AffineTransform(AffineTransform.getRotateInstance(theta2, 0,0));
+                    var finalx = (x)
                     t.transform(pw,pwr);
                     //var pwr = AffineTransform.(pw, theta2);
 
