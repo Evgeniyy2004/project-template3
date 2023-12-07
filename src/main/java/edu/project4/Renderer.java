@@ -22,23 +22,25 @@ public class Renderer {
         FractalImage canvas,
         Rect world,
         Vector<List<Double>> variations,
-        List<Vector<Integer>> colors,
+        Vector<List<Integer>> colors,
         int samples,
         int iterPerSample
     ) {
-        var random2 = ThreadLocalRandom.current().nextInt(2 + 2 + 1);
+
         for (int num = 0; num < samples; num++) {
             var currx = ThreadLocalRandom.current().nextDouble(world.x(), (world.x() + world.width()) + ANTIACCURACY);
             var curry = ThreadLocalRandom.current().nextDouble(world.y(), (world.y() + world.height()) + ANTIACCURACY);
+            var random3 = ThreadLocalRandom.current().nextInt(colors.size());
             for (int step = 0; step < iterPerSample; step++) {
 
+                var random2 = ThreadLocalRandom.current().nextInt(2 + 2 + 1);
                 var random = ThreadLocalRandom.current().nextInt(variations.size());
                 var variation = variations.get(random);
                 var x = variation.get(0) * currx + variation.get(1) * curry + variation.get(2);
                 var y = variation.get(2 + 1) * currx + variation.get(2 * 2) * curry + variation.get(2 * 2 + 1);
                 var pw = new Point2D.Double();
 
-                var random3 = ThreadLocalRandom.current().nextInt(colors.size());
+
                 if (random2 == 0) {
                     pw.x = (x) / (x * x + y * y);
                     pw.y = (y) / (x * x + y * y);
