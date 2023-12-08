@@ -264,10 +264,10 @@ public class LogAnalyst {
             lastBuilder.addRow(sorted1.get(j).getKey(), sorted1.get(j).getValue());
         }
 
-        log.info("\n"+String.valueOf(builder.build()));
+        log.info("\n" + String.valueOf(builder.build()));
         log.info("\n");
-        log.info("\n"+String.valueOf(builder1.build()));
+        log.info("\n" + String.valueOf(builder1.build()));
         log.info("\n");
-        log.info("\n"+String.valueOf(lastBuilder.build()));
+        log.info("\n" + String.valueOf(lastBuilder.build()));
     }
 }
