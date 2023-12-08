@@ -21,9 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import net.steppschuh.markdowngenerator.table.Table;
 
 @SuppressWarnings({"MultipleStringLiterals", "RegexpSinglelineJava"})
+@Slf4j
 public class LogAnalyst {
 
     private LogAnalyst() {
@@ -261,10 +263,10 @@ public class LogAnalyst {
         for (int j = 0; j < (2 + 1) && j < sorted1.size(); j++) {
             lastBuilder.addRow(sorted1.get(j).getKey(), sorted1.get(j).getValue());
         }
-        System.out.println(builder.build());
-        System.out.println("\n");
-        System.out.println(builder1.build());
-        System.out.println("\n");
-        System.out.println(lastBuilder.build());
+        log.info(String.valueOf(builder.build()));
+        log.info("\n");
+        log.info(String.valueOf(builder1.build()));
+        log.info("\n");
+        log.info(String.valueOf(lastBuilder.build()));
     }
 }

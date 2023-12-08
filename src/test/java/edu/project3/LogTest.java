@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.ParseException;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.fail;
 
+@Slf4j
 public class LogTest {
 
     @Test
@@ -36,7 +38,7 @@ public class LogTest {
             var now = Files.readAllBytes(new File("result.adoc").toPath());
 
             //Assert
-            System.out.println(new String(now, StandardCharsets.UTF_8));
+            log.info(new String(now, StandardCharsets.UTF_8));
         } catch (IOException | ParseException e) {
             fail();
         }
@@ -55,7 +57,7 @@ public class LogTest {
             var now = Files.readAllBytes(new File("result.adoc").toPath());
 
             //Assert
-            System.out.println(new String(now, StandardCharsets.UTF_8));
+            log.info(new String(now, StandardCharsets.UTF_8));
         } catch (IOException | ParseException e) {
             fail();
         }
@@ -74,7 +76,7 @@ public class LogTest {
             var now = Files.readAllBytes(new File("result.adoc").toPath());
 
             //Assert
-            System.out.println(new String(now, StandardCharsets.UTF_8));
+            log.info(new String(now, StandardCharsets.UTF_8));
         } catch (IOException | ParseException e) {
             fail();
         }
