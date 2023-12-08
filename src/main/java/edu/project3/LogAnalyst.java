@@ -263,10 +263,11 @@ public class LogAnalyst {
         for (int j = 0; j < (2 + 1) && j < sorted1.size(); j++) {
             lastBuilder.addRow(sorted1.get(j).getKey(), sorted1.get(j).getValue());
         }
-        log.info(String.valueOf(builder.build()));
+
+        log.info("\n"+String.valueOf(builder.build()));
         log.info("\n");
-        log.info(String.valueOf(builder1.build()));
+        log.info("\n"+String.valueOf(builder1.build()));
         log.info("\n");
-        log.info(String.valueOf(lastBuilder.build()));
+        log.info("\n"+String.valueOf(lastBuilder.build()));
     }
 }
