@@ -25,4 +25,20 @@ public class Test1 {
             }
         }
     }
+
+    @Test
+    void randomDataForConstructor() {
+        for (int i = 0; i < 10000; i++) {
+            try {
+                NeedToGenerate now = (NeedToGenerate) Task1.nextObject(NeedToGenerate.class);
+                var annotation = (Min) NeedToGenerate.class.getConstructors()[0].getParameters()[0].getAnnotations()[0];
+                var annotation1 = (Max) NeedToGenerate.class.getConstructors()[0].getParameters()[0].getAnnotations()[1];
+                if (now.a < annotation.value() || now.a >= annotation1.value()) {
+                    fail("Value of field a doesnt match annotation");
+                }
+            } catch (Exception e) {
+                fail();
+            }
+        }
+    }
 }
