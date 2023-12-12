@@ -1,7 +1,10 @@
 package edu.hw10;
 
+import java.io.File;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,7 +34,16 @@ public class Handler implements InvocationHandler {
                 return res;
             }
             else {
-
+                var futureName = String.valueOf(invokator.getClass());
+                if(!Files.exists(new File(futureName).toPath())) {
+                    Files.createTempDirectory(futureName);
+                }
+                var list = new File(futureName).listFiles();
+                var necessary = Arrays.stream(list).filter(r->r.getName().equals(method.getName()+".txt"));
+                if (necessary.count() ==0) {
+                    necessary.close();
+                    File.cre
+                }
             }
         }
         return method.invoke(invokator,args);
