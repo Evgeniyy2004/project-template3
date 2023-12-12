@@ -17,4 +17,6 @@ public class NeedToGenerate {
     public NeedToGenerate create(@Min(value = Integer.MIN_VALUE) @Max(value = Integer.MAX_VALUE) int A, double B, float C,  String D) {
         return new NeedToGenerate(A,B,C,D);
     }
+
+
 }

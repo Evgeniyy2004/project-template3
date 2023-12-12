@@ -18,7 +18,7 @@ public class Test1 {
                 var annotation = (Min) NeedToGenerate.class.getMethod(methodName,types).getParameters()[0].getAnnotations()[0];
                 var annotation1 = (Max) NeedToGenerate.class.getMethod(methodName,types).getParameters()[0].getAnnotations()[1];
                 if (now.a < annotation.value() || now.a >= annotation1.value()) {
-                    fail("Value of field a doesnt match annotation");
+                    fail("Value of field  doesn't match annotation");
                 }
             } catch (Exception e) {
                 fail();
@@ -34,7 +34,7 @@ public class Test1 {
                 var annotation = (Min) NeedToGenerate.class.getConstructors()[0].getParameters()[0].getAnnotations()[0];
                 var annotation1 = (Max) NeedToGenerate.class.getConstructors()[0].getParameters()[0].getAnnotations()[1];
                 if (now.a < annotation.value() || now.a >= annotation1.value()) {
-                    fail("Value of field a doesnt match annotation");
+                    fail("Value of field doesn't match annotation");
                 }
             } catch (Exception e) {
                 fail();
