@@ -12,19 +12,18 @@ public class Test1 {
         try {
             Task1.someThreads(Long.valueOf(Runtime.getRuntime().availableProcessors() + 1));
             fail("Число потоков не может превышать количество ядер процессора");
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
 
         try {
             Task1.someThreads(-1L);
             fail("Число потоков не может быть отрицательным");
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
 
     }
 
     @Test
-    @DisplayName("")
     void normalData() {
         //Arrange
         var argument = Long.valueOf(Runtime.getRuntime().availableProcessors() - 1);

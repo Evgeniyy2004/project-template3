@@ -43,6 +43,7 @@ public class Test3 {
         var one = new Person(123,null,"spb","9900");
         var base = new Task3();
         List<Thread> all = new Vector<>();
+
         //Act
         for (int h = 0; h < 100; h++) {
             all.add(new Thread(()->base.add(one)));

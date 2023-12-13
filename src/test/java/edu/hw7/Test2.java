@@ -14,7 +14,7 @@ public class Test2 {
         try {
             Task2.factorial(-6L);
             fail("Нельзя получить факториал отрицательного числа");
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
     }
 

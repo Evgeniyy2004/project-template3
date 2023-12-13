@@ -5,12 +5,16 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Task4 {
-    private static final int PROCESSORS = Runtime.getRuntime().availableProcessors();
-    private static int totalCount = 0;
 
+
+    private static final int PROCESSORS = Runtime.getRuntime().availableProcessors();
     private static final double ACCURACY = 1e-6;
+    private static final Logger LOGGER = LogManager.getLogger();
+    private static int totalCount = 0;
 
     private Task4() {
     }
@@ -38,12 +42,7 @@ public class Task4 {
         if (n <= 0) {
             throw new IllegalArgumentException();
         }
-        /*long startTime = System.nanoTime();
-        countByOne(N);
-        long endTime = System.nanoTime();
-        var oneThreadDuration = (endTime - startTime);*/
 
-        /*long startTime1 = System.nanoTime();*/
         Callable task = (() -> {
             var circles = 0;
             for (int i = 0; i < Math.min(n - totalCount, n / PROCESSORS); i++) {
@@ -62,6 +61,7 @@ public class Task4 {
                 totalCount += Math.min(n - totalCount, n / PROCESSORS);
             }
         } catch (ExecutionException | InterruptedException e) {
+            LOGGER.info(e.getMessage());
             throw new RuntimeException(e);
         }
         return 2 * 2 * (((double) circleCount) / ((double) n));
