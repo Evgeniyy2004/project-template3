@@ -134,9 +134,6 @@
             <version>${assertj.version}</version>
         </dependency>
 
-
-
-
         <dependency>
             <groupId>net.steppschuh.markdowngenerator</groupId>
             <artifactId>markdowngenerator</artifactId>
