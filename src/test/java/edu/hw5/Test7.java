@@ -16,7 +16,7 @@ public class Test7 {
 
     @Test
     @DisplayName("Одинаковые символы из алфавита {0,1} в начале и конце строки")
-    void equalsymbols() {
+    void equalSymbols() {
         assertFalse(Task7.TWO.matcher("0111").find());
         assertTrue(Task7.TWO.matcher("0").find());
         assertTrue(Task7.TWO.matcher("1").find());
