@@ -134,11 +134,13 @@
             <version>${assertj.version}</version>
         </dependency>
 
+
         <!--<dependency>
             <groupId>education</groupId>
             <artifactId>essentials</artifactId>
             <version>1.0.0</version>
         </dependency>-->
+
         <dependency>
             <groupId>net.steppschuh.markdowngenerator</groupId>
             <artifactId>markdowngenerator</artifactId>
@@ -167,6 +169,7 @@
             <version>1.18.30</version>
             <scope>compile</scope>
         </dependency>
+
 
     </dependencies>
 
