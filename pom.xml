@@ -63,16 +63,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctorj</artifactId>
-                <version>2.5.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctorj-pdf</artifactId>
-                <version>2.3.4</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -88,22 +78,6 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${assertj.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>net.steppschuh.markdowngenerator</groupId>
@@ -134,7 +108,26 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>education</groupId>
+            <artifactId>essentials</artifactId>
+            <version>1.0.0</version>
+        </dependency>-->
     </dependencies>
 
     <build>
@@ -259,4 +252,3 @@
         </pluginManagement>
     </build>
 </project>
-
