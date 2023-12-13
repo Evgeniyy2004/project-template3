@@ -40,13 +40,13 @@ public class Test2 {
     @DisplayName("Метод работает только с годами нашей эры")
     void onlyPositive(){
         try {
-            var one = allFridays13th(-1).toArray();
+            allFridays13th(-1).toArray();
             fail("Год должен быть положительным");
         } catch (IllegalArgumentException e) {
         }
 
         try {
-            var one = Task2.next(-1,1 , 1);
+            Task2.next(-1,1 , 1);
             fail("Год должен быть положительным");
         } catch (IllegalArgumentException e) {
         }
