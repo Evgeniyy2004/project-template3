@@ -143,21 +143,11 @@
         </dependency>
 
         <dependency>
-            <groupId>org.asciidoctor</groupId>
-            <artifactId>asciidoctor-java-integration</artifactId>
-            <version>0.1.4</version>
-        </dependency>
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.36</version>
         </dependency>
-        <dependency>
-            <groupId>education</groupId>
-            <artifactId>essentials</artifactId>
-            <version>1.0.0</version>
-            <scope>test</scope>
-        </dependency>
+
 
 
     </dependencies>
