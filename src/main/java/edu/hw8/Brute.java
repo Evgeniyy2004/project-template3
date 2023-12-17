@@ -8,11 +8,11 @@ import java.util.Random;
 
 public class Brute {
 
-    private Brute() {
-    }
-
     private static final int LEFTLIMIT = 97;
     private static final int RIGHTLIMIT = 122;
+
+    private Brute() {
+    }
 
     public static void brute(HashMap<String, String> toadd, int size, String currstr)
         throws UnsupportedEncodingException, NoSuchAlgorithmException {

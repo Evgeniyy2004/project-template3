@@ -10,11 +10,14 @@ public class Test2 {
 
     @Test
     void checkPool() {
+        //Arrange
         int n = new Random().nextInt(10,100);
         int [] all = new int[n];
         for (int y = 0; y< n; y++) all[y] = new Random().nextInt(10,50);
         var notYet = new PoolRealisation();
         notYet.create(n);
+
+        //Act
         for (int i = 0; i < n; i++) {
             int finalI = i;
             notYet.execute(() -> {
