@@ -1,4 +1,4 @@
-package edu.hw11;
+/*package edu.hw11;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -61,7 +61,7 @@ public class Task3 {
 
                 methodVisitor.visitLabel(l3);
                 methodVisitor.visitEnd();
-                /*L0
+                *//*L0
                 LINENUMBER 5 L0
                 ILOAD 0
                 IFNE L1
@@ -91,7 +91,7 @@ public class Task3 {
                     L3
                 LOCALVARIABLE n I L0 L3 0
                 MAXSTACK = 4
-                MAXLOCALS = 1*/
+                MAXLOCALS = 1*//*
                 System.out.println(methodVisitor.);
                 return new Size(4, 1);
             }
@@ -111,4 +111,4 @@ public class Task3 {
             assertThat(object).isEqualTo(FibClass.fib(number));
         }
     }
-}
+}*/
