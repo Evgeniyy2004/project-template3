@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import static net.bytebuddy.matcher.ElementMatchers.named;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class Task2 {
+public class Test2 {
     @Test
     @DisplayName("При вызове minutesToSeconds из-за  переопределения  метода происходит не парсинг строки формата mm:ss," +
         " а возврат длины данной строки")
