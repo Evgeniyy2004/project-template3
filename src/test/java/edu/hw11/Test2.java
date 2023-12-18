@@ -36,7 +36,6 @@ public class Test2 {
             .intercept(MethodDelegation.to(edu.hw11.ClassForDelegate.class))
             .make()
             .load(getClass().getClassLoader(), ClassReloadingStrategy.fromInstalledAgent());
-
         for (int y = 0; y < 100; y++) {
             var currStr = UUID.randomUUID().toString();
             assertThat(TestClass.staticCount(currStr)).isEqualTo(currStr.length());
