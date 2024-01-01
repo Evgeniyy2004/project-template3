@@ -21,7 +21,6 @@ public class DiskMap implements Map<String, String> {
     private HashMap<String, String> associativeArray = new HashMap<>();
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String MESSAGE = "File is not available";
-    private
     Path path;
 
     public DiskMap() {

@@ -10,6 +10,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+;
+
 public class Test1 {
     @Test
     @DisplayName("DiskMap может создаваться с помощью конструктора без параметров и на основе текстового файла. Изменение DiskMap ведет к изменению файла")
