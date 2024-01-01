@@ -14,7 +14,6 @@ public class Task2 {
     }
 
     public static void cloneFile(Path path) throws IOException {
-        //var directory = new File(path.getParent().toString());
         var currName = path.getFileName().toString();
         var currToAdd = "-копия";
         var i = currName.lastIndexOf('.');

@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import static org.apache.commons.io.FileUtils.directoryContains;
@@ -17,6 +19,7 @@ import static org.apache.commons.io.FileUtils.directoryContains;
 public class DiskMap implements Map<String, String> {
 
     private HashMap<String, String> associativeArray = new HashMap<>();
+    private final static Logger LOGGER = LogManager.getLogger();
     Path path;
 
     public DiskMap() {
@@ -29,6 +32,7 @@ public class DiskMap implements Map<String, String> {
             }
             Files.write(path, "".getBytes());
         } catch (IOException e) {
+            LOGGER.info("Error");
         }
     }
 
@@ -41,6 +45,7 @@ public class DiskMap implements Map<String, String> {
                 associativeArray.put(currPair[0], currPair[1]);
             }
         } catch (IOException e) {
+            LOGGER.info("File is not available");
         }
     }
 
@@ -128,6 +133,7 @@ public class DiskMap implements Map<String, String> {
                 streamOfWrite.write(curr.getBytes());
             }
         } catch (IOException e) {
+            LOGGER.info("File is not available");
         }
     }
 }

@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 @SuppressWarnings("all")
 public class Task6 {
 
-    private final static Logger LOGGER = LogManager.getLogger();
+    private  static final Logger LOGGER = LogManager.getLogger();
 
     private Task6() {
     }
