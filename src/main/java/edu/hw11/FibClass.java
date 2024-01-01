@@ -1,8 +1,8 @@
 package edu.hw11;
 
-
 @SuppressWarnings("HideUtilityClassConstructor")
 public class FibClass {
+
     public static long fib(int n) {
         if (n == 0) {
             return 0;

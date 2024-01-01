@@ -30,6 +30,8 @@ public class Test2 {
     @DisplayName("Изменение поведения статического метода")
     void redefineStatic() {
         ByteBuddyAgent.install();
+
+
         new ByteBuddy()
             .redefine(edu.hw11.TestClass.class)
             .method(named("staticCount"))
