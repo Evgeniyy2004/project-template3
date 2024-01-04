@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 public class AllTests {
 
-    private final static Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
     @Test
     @DisplayName("Проверка корректности вывода созданного лабиринта - правильного количества cтрок и столбцов")
     void Test1(){

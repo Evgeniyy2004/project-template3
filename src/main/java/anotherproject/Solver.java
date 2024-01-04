@@ -127,12 +127,6 @@ public class Solver {
                             continue;
                         }
                         paths.put(new Point(current.curr.x + dx, current.curr.y + dy), paths.get(current.curr) + 1);
-                        /*if (chests1.ContainsKey(new Point(current.curr.x + dx, current.curr.y + dy)))
-                        {
-                            //chests1.Remove(new Point(current.Value.X + dx, current.Value.Y + dy));
-                            //yield return new SinglyLinkedList<Point>
-                            (new Point(current.curr.x + dx, current.curr.y + dy),current);
-                        }*/
                         stack.push(new SinglyLinkedList(new Point(current.curr.x + dx, current.curr.y + dy), current));
                     }
                 }
