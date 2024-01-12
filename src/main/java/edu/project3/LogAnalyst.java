@@ -21,11 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.java.Log;
 import net.steppschuh.markdowngenerator.table.Table;
 
 @SuppressWarnings({"MultipleStringLiterals"})
-@Slf4j
+@Log
 public class LogAnalyst {
 
     private LogAnalyst() {

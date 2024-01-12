@@ -6,9 +6,10 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.java.Log;
+//import org.apache.logging.log4j;
 
-@Slf4j
+@Log
 public class Task2 extends Thread {
 
     private static BlockingQueue<File> nodesToReview = new LinkedBlockingDeque<>();

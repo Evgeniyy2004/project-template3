@@ -6,9 +6,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.java.Log;
 
-@Slf4j
+@Log
 public class Task3 extends Thread {
     private static BlockingQueue<LinkedList<Point>> nodesToReview = new LinkedBlockingDeque<>();
     private static ConcurrentHashMap<Point, LinkedList> visited = new ConcurrentHashMap<>();

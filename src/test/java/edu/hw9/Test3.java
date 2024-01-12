@@ -2,13 +2,13 @@ package edu.hw9;
 
 import java.awt.Point;
 import java.util.Random;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.java.Log;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-@Slf4j
+@Log
 public class Test3 {
 
     @Test

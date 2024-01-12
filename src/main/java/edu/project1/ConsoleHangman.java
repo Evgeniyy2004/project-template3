@@ -1,9 +1,9 @@
 package edu.project1;
 
 import java.util.Scanner;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.java.Log;
 
-@Slf4j
+@Log
 public class ConsoleHangman {
 
     private final static Scanner SCANNER = new Scanner(System.in);
