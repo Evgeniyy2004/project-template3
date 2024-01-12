@@ -13,10 +13,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;
 
-@Slf4j
+@Log
 public class Test1 {
     @Test
     void oneThread() throws IOException {
