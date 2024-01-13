@@ -27,17 +27,15 @@ public class Test1 {
         var toadd = new Vector<List<Double>>();
         for (int i = 0; i < 100; i++) {
             var now = ThreadLocalRandom.current().doubles(6, -1, 1 + 1e-6);
-            toadd.add(now.boxed().collect(Collectors.toList()));
+            var another = ThreadLocalRandom.current().ints(3,0,256).toArray();
+            var res = now.boxed().collect(Collectors.toList());
+            for(int j =0; j<3; j++) res.add((double) another[j]);
+            toadd.add(res);
         }
 
-        Vector<List<Integer>> colors = new Vector<>();
-        for (int i = 0; i < 100; i++) {
-            var now = ThreadLocalRandom.current().ints(3, 0, 256);
-            colors.add(now.boxed().collect(Collectors.toList()));
-        }
         var t = new Renderer();
         t.render(FractalImage.create(bi.getWidth(), bi.getHeight()),
-            new Rect(0, 0, 1, 1), toadd, colors, 30000, 1500);
+            new Rect(0, 0, 1, 1), toadd, 30000, 1500);
         t.notEqual();
         for (Point p : t.goals.keySet()) {
             var pixel = t.goals.get(p);
@@ -62,12 +60,10 @@ public class Test1 {
         var toadd = new Vector<List<Double>>();
         for (int i = 0; i < 100; i++) {
             var now = ThreadLocalRandom.current().doubles(6, -1, 1 + 1e-6);
-            toadd.add(now.boxed().collect(Collectors.toList()));
-        }
-        Vector<List<Integer>> colors = new Vector<>();
-        for (int i = 0; i < 100; i++) {
-            var now = ThreadLocalRandom.current().ints(3, 0, 256);
-            colors.add(now.boxed().collect(Collectors.toList()));
+            var another = ThreadLocalRandom.current().ints(3,0,256).toArray();
+            var res = now.boxed().collect(Collectors.toList());
+            for(int j =0; j<3; j++) res.add((double) another[j]);
+            toadd.add(res);
         }
 
         var pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
@@ -75,7 +71,7 @@ public class Test1 {
         CompletableFuture[] all = new CompletableFuture[Runtime.getRuntime().availableProcessors()];
         for(int y =0; y < Runtime.getRuntime().availableProcessors(); y++) {
             all[y] = CompletableFuture.runAsync(()-> t.render(FractalImage.create(bi.getWidth(), bi.getHeight()),
-                new Rect(0, 0, 1, 1), toadd, colors, 30000/ all.length, 1500),pool);
+                new Rect(0, 0, 1, 1), toadd, 30000/ all.length, 1500),pool);
         }
         CompletableFuture.allOf(all).join();
         for (Point p : t.goals.keySet()) {

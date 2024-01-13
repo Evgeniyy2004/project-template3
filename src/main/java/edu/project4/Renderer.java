@@ -19,15 +19,14 @@ public class Renderer {
         FractalImage canvas,
         Rect world,
         Vector<List<Double>> variations,
-        Vector<List<Integer>> colors,
         int samples,
         int iterPerSample
     ) {
         var random2 = ThreadLocalRandom.current().nextInt(2 + 2 + 1);
+        random2 = 4; //пусть будет именно "диск"
         for (int num = 0; num < samples; num++) {
             var currx = ThreadLocalRandom.current().nextDouble(world.x(), (world.x() + world.width()) + ANTIACCURACY);
             var curry = ThreadLocalRandom.current().nextDouble(world.y(), (world.y() + world.height()) + ANTIACCURACY);
-            var random3 = 1;
 
             for (int yy = 0; yy < iterPerSample; yy++) {
                 var random = ThreadLocalRandom.current().nextInt(variations.size());
@@ -67,8 +66,8 @@ public class Renderer {
                             Math.abs((int) (pw.x * canvas.width() / world.width())),
                             (int) (pw.y * canvas.height() / world.height())
                         ),
-                        new int[] {colors.get(random3).get(0), colors.get(random3).get(1),
-                            colors.get(random3).get(2), 1}
+                        new int[] {variations.get(random).get(6).intValue(), variations.get(random).get(7).intValue(),
+                            variations.get(random).get(8).intValue(), 1}
                     );
                 } else {
                     //Попали не в первый раз, считаем так:
@@ -81,9 +80,9 @@ public class Renderer {
                             Math.abs((int) (pw.x * canvas.width() / world.width())),
                             Math.abs((int) (pw.y * canvas.height() / world.height()))
                         ),
-                        new int[] {(pixel[0] + colors.get(random3).get(0)) / 2,
-                            (pixel[1] + colors.get(random3).get(1)) / 2,
-                            (pixel[2] + colors.get(random3).get(2)) / 2,
+                        new int[] {(pixel[0] + variations.get(random).get(6).intValue()) / 2,
+                            (pixel[1] + variations.get(random).get(7).intValue()) / 2,
+                            (pixel[2] + variations.get(random).get(8).intValue()) / 2,
                             pixel[2 + 1] + 1}
                     );
                 }
